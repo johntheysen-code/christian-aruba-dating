@@ -11,10 +11,13 @@ export function ProfileCTA({ hasProfile }: { hasProfile: boolean }) {
   return (
     <div className="cta-row">
       <Link href="/browse" className="btn btn-facebook">
-        Browse members →
+        Browse members
       </Link>
       <Link href="/matches" className="btn btn-ghost">
-        Your matches
+        Matches
+      </Link>
+      <Link href="/messages" className="btn btn-ghost">
+        Messages
       </Link>
       <Link href="/profile/edit" className="btn btn-ghost">
         Edit profile

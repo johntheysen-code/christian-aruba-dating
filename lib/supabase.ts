@@ -191,14 +191,29 @@ export async function listMatches(userId: string): Promise<Profile[]> {
   const client = getAdminClient();
   if (!client) return [];
 
+  const matchedIds = await getMatchedUserIds(userId);
+  if (matchedIds.length === 0) return [];
+
+  const { data: profiles, error: profErr } = await client
+    .from("profiles")
+    .select("*")
+    .in("user_id", matchedIds);
+  if (profErr) {
+    console.error("[supabase] listMatches profiles failed", profErr);
+    return [];
+  }
+  return (profiles ?? []) as Profile[];
+}
+
+async function getMatchedUserIds(userId: string): Promise<string[]> {
+  const client = getAdminClient();
+  if (!client) return [];
+
   const { data: outgoing, error: outErr } = await client
     .from("likes")
     .select("liked_id")
     .eq("liker_id", userId);
-  if (outErr) {
-    console.error("[supabase] listMatches outgoing failed", outErr);
-    return [];
-  }
+  if (outErr) return [];
   const likedIds = (outgoing ?? []).map((r) => r.liked_id as string);
   if (likedIds.length === 0) return [];
 
@@ -207,20 +222,143 @@ export async function listMatches(userId: string): Promise<Profile[]> {
     .select("liker_id")
     .eq("liked_id", userId)
     .in("liker_id", likedIds);
-  if (inErr) {
-    console.error("[supabase] listMatches incoming failed", inErr);
+  if (inErr) return [];
+  return (incoming ?? []).map((r) => r.liker_id as string);
+}
+
+export async function isMatched(
+  userA: string,
+  userB: string
+): Promise<boolean> {
+  const client = getAdminClient();
+  if (!client) return false;
+  const { data, error } = await client
+    .from("likes")
+    .select("liker_id, liked_id")
+    .or(
+      `and(liker_id.eq.${userA},liked_id.eq.${userB}),and(liker_id.eq.${userB},liked_id.eq.${userA})`
+    );
+  if (error) {
+    console.error("[supabase] isMatched failed", error);
+    return false;
+  }
+  return (data?.length ?? 0) >= 2;
+}
+
+export type Message = {
+  id: string;
+  sender_id: string;
+  recipient_id: string;
+  body: string;
+  created_at: string;
+  read_at: string | null;
+};
+
+export async function sendMessage(
+  senderId: string,
+  recipientId: string,
+  body: string
+): Promise<Message | null> {
+  const client = getAdminClient();
+  if (!client) return null;
+  const { data, error } = await client
+    .from("messages")
+    .insert({ sender_id: senderId, recipient_id: recipientId, body })
+    .select("*")
+    .single();
+  if (error) {
+    console.error("[supabase] sendMessage failed", error);
+    return null;
+  }
+  return data as Message;
+}
+
+export async function listThread(
+  userA: string,
+  userB: string
+): Promise<Message[]> {
+  const client = getAdminClient();
+  if (!client) return [];
+  const { data, error } = await client
+    .from("messages")
+    .select("*")
+    .or(
+      `and(sender_id.eq.${userA},recipient_id.eq.${userB}),and(sender_id.eq.${userB},recipient_id.eq.${userA})`
+    )
+    .order("created_at", { ascending: true })
+    .limit(500);
+  if (error) {
+    console.error("[supabase] listThread failed", error);
     return [];
   }
-  const mutualIds = (incoming ?? []).map((r) => r.liker_id as string);
-  if (mutualIds.length === 0) return [];
+  return (data ?? []) as Message[];
+}
 
-  const { data: profiles, error: profErr } = await client
+export async function markThreadRead(
+  viewerId: string,
+  otherId: string
+): Promise<void> {
+  const client = getAdminClient();
+  if (!client) return;
+  const { error } = await client
+    .from("messages")
+    .update({ read_at: new Date().toISOString() })
+    .eq("recipient_id", viewerId)
+    .eq("sender_id", otherId)
+    .is("read_at", null);
+  if (error) console.error("[supabase] markThreadRead failed", error);
+}
+
+export type ConversationSummary = {
+  partner: Profile;
+  last_message: Message | null;
+  unread_count: number;
+};
+
+export async function listConversations(
+  userId: string
+): Promise<ConversationSummary[]> {
+  const client = getAdminClient();
+  if (!client) return [];
+
+  const matchedIds = await getMatchedUserIds(userId);
+  if (matchedIds.length === 0) return [];
+
+  const { data: profiles } = await client
     .from("profiles")
     .select("*")
-    .in("user_id", mutualIds);
-  if (profErr) {
-    console.error("[supabase] listMatches profiles failed", profErr);
-    return [];
+    .in("user_id", matchedIds);
+
+  const summaries: ConversationSummary[] = [];
+  for (const partner of (profiles ?? []) as Profile[]) {
+    const { data: lastArr } = await client
+      .from("messages")
+      .select("*")
+      .or(
+        `and(sender_id.eq.${userId},recipient_id.eq.${partner.user_id}),and(sender_id.eq.${partner.user_id},recipient_id.eq.${userId})`
+      )
+      .order("created_at", { ascending: false })
+      .limit(1);
+
+    const { count } = await client
+      .from("messages")
+      .select("*", { count: "exact", head: true })
+      .eq("recipient_id", userId)
+      .eq("sender_id", partner.user_id)
+      .is("read_at", null);
+
+    summaries.push({
+      partner,
+      last_message: (lastArr?.[0] as Message) ?? null,
+      unread_count: count ?? 0,
+    });
   }
-  return (profiles ?? []) as Profile[];
+
+  summaries.sort((a, b) => {
+    const at = a.last_message?.created_at ?? "";
+    const bt = b.last_message?.created_at ?? "";
+    return bt.localeCompare(at);
+  });
+
+  return summaries;
 }

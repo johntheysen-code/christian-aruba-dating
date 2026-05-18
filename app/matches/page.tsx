@@ -64,6 +64,14 @@ export default async function MatchesPage() {
                   <p className="card-church muted small">{p.church_name}</p>
                 )}
                 {p.bio && <p className="card-bio">{p.bio}</p>}
+                <div className="card-actions">
+                  <Link
+                    href={`/messages/${p.user_id}`}
+                    className="btn btn-facebook btn-sm"
+                  >
+                    Send message
+                  </Link>
+                </div>
               </div>
             </li>
           ))}
