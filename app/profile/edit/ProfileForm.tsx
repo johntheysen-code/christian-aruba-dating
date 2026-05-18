@@ -72,6 +72,7 @@ export function ProfileForm({ initial, fallbackName, fallbackPhoto }: Props) {
       } else {
         setSuccess(true);
         router.refresh();
+        setTimeout(() => router.push("/"), 800);
       }
     } catch {
       setError("Network error — try again");
