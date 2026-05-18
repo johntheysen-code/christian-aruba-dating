@@ -15,14 +15,28 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === "facebook" && user.email) {
-        await upsertUser({
+        const row = await upsertUser({
           facebook_id: account.providerAccountId,
           email: user.email,
           name: user.name ?? null,
           image: user.image ?? null,
         });
+        if (row) {
+          (user as { dbId?: string }).dbId = row.id;
+        }
       }
       return true;
+    },
+    async jwt({ token, user }) {
+      const dbId = (user as { dbId?: string } | undefined)?.dbId;
+      if (dbId) token.dbId = dbId;
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user && token.dbId) {
+        (session.user as { id?: string }).id = token.dbId as string;
+      }
+      return session;
     },
   },
   pages: {

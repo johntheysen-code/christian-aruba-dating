@@ -1,6 +1,16 @@
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { getProfile } from "@/lib/supabase";
 import { AuthButton } from "./components/AuthButton";
+import { ProfileCTA } from "./components/ProfileCTA";
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const session = await getServerSession(authOptions);
+  const profile = session?.user?.id ? await getProfile(session.user.id) : null;
+  const signedIn = Boolean(session?.user);
+
   return (
     <>
       <header className="container">
@@ -24,7 +34,11 @@ export default function HomePage() {
               &ldquo;Above all else, guard your heart, for everything you do
               flows from it.&rdquo; — Proverbs 4:23
             </p>
-            <AuthButton variant="facebook" />
+            {signedIn ? (
+              <ProfileCTA hasProfile={Boolean(profile)} />
+            ) : (
+              <AuthButton variant="facebook" />
+            )}
           </div>
           <div className="hero-art" aria-hidden="true" />
         </section>
@@ -66,9 +80,30 @@ export default function HomePage() {
         </section>
 
         <section className="container cta">
-          <h2>Ready to meet someone who shares your faith?</h2>
-          <p>Sign in with Facebook to create your profile. It takes a minute.</p>
-          <AuthButton variant="facebook" />
+          {signedIn ? (
+            <>
+              <h2>
+                {profile
+                  ? `Welcome back, ${profile.display_name}.`
+                  : "You're almost in."}
+              </h2>
+              <p>
+                {profile
+                  ? "Soon you'll be able to browse other members. For now, keep your profile fresh."
+                  : "Set up your profile so other believers can find you."}
+              </p>
+              <ProfileCTA hasProfile={Boolean(profile)} />
+            </>
+          ) : (
+            <>
+              <h2>Ready to meet someone who shares your faith?</h2>
+              <p>
+                Sign in with Facebook to create your profile. It takes a
+                minute.
+              </p>
+              <AuthButton variant="facebook" />
+            </>
+          )}
         </section>
       </main>
 

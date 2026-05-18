@@ -244,3 +244,132 @@ a {
   height: 100%;
   object-fit: cover;
 }
+
+.muted {
+  color: var(--muted);
+}
+
+.muted.small {
+  font-size: 0.85rem;
+}
+
+.profile-page {
+  padding: 2rem 0 4rem;
+  max-width: 640px;
+}
+
+.profile-header {
+  margin-bottom: 2rem;
+}
+
+.profile-header h1 {
+  font-size: 1.875rem;
+  color: var(--ocean-dark);
+  margin: 0.5rem 0;
+}
+
+.back-link {
+  font-size: 0.9rem;
+  color: var(--ocean);
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: white;
+  padding: 1.75rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px -8px rgba(7, 77, 101, 0.15);
+}
+
+.photo-preview {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.photo-preview img {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--sand);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field-label {
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+
+.req {
+  color: var(--coral);
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1.5px solid #d8dde2;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: white;
+  color: var(--ink);
+  transition: border-color 0.15s ease;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--ocean);
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 500px) {
+  .row-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+
+.alert.error {
+  background: #fde8e4;
+  color: var(--coral-dark);
+  border: 1px solid #f5b5a5;
+}
+
+.alert.success {
+  background: #e0f3ea;
+  color: #1d6b41;
+  border: 1px solid #a8d8bc;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
