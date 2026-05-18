@@ -13,6 +13,9 @@ export function ProfileCTA({ hasProfile }: { hasProfile: boolean }) {
       <Link href="/browse" className="btn btn-facebook">
         Browse members →
       </Link>
+      <Link href="/matches" className="btn btn-ghost">
+        Your matches
+      </Link>
       <Link href="/profile/edit" className="btn btn-ghost">
         Edit profile
       </Link>

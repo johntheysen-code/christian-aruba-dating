@@ -499,4 +499,75 @@ a {
   color: var(--ink);
   font-size: 0.95rem;
   line-height: 1.45;
+  margin-bottom: 0.85rem;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.5rem;
+  border-top: 1px solid #f0eee8;
+}
+
+.like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  border: 1.5px solid #e0e4e8;
+  background: white;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.like-btn:hover:not(:disabled) {
+  border-color: var(--coral);
+  color: var(--coral);
+}
+
+.like-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.like-btn.is-liked {
+  background: var(--coral);
+  border-color: var(--coral);
+  color: white;
+}
+
+.like-btn.is-liked:hover:not(:disabled) {
+  background: var(--coral-dark);
+  border-color: var(--coral-dark);
+  color: white;
+}
+
+.match-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ocean-dark);
+  color: white;
+  padding: 0.85rem 1.4rem;
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: 0 8px 30px -8px rgba(7, 77, 101, 0.5);
+  z-index: 100;
+  animation: toast-in 0.25s ease-out;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 12px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }

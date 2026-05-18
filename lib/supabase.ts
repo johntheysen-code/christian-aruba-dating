@@ -129,3 +129,98 @@ export async function listMatchableProfiles(
   }
   return (data ?? []) as Profile[];
 }
+
+export async function getLikedIds(likerId: string): Promise<Set<string>> {
+  const client = getAdminClient();
+  if (!client) return new Set();
+  const { data, error } = await client
+    .from("likes")
+    .select("liked_id")
+    .eq("liker_id", likerId);
+  if (error) {
+    console.error("[supabase] getLikedIds failed", error);
+    return new Set();
+  }
+  return new Set((data ?? []).map((r) => r.liked_id as string));
+}
+
+export async function like(
+  likerId: string,
+  likedId: string
+): Promise<{ matched: boolean }> {
+  const client = getAdminClient();
+  if (!client) return { matched: false };
+  if (likerId === likedId) return { matched: false };
+
+  const { error: insertError } = await client
+    .from("likes")
+    .upsert(
+      { liker_id: likerId, liked_id: likedId },
+      { onConflict: "liker_id,liked_id" }
+    );
+  if (insertError) {
+    console.error("[supabase] like insert failed", insertError);
+    return { matched: false };
+  }
+
+  const { data: reciprocal, error: checkError } = await client
+    .from("likes")
+    .select("liker_id")
+    .eq("liker_id", likedId)
+    .eq("liked_id", likerId)
+    .maybeSingle();
+  if (checkError) {
+    console.error("[supabase] like reciprocal check failed", checkError);
+    return { matched: false };
+  }
+  return { matched: Boolean(reciprocal) };
+}
+
+export async function unlike(likerId: string, likedId: string): Promise<void> {
+  const client = getAdminClient();
+  if (!client) return;
+  const { error } = await client
+    .from("likes")
+    .delete()
+    .eq("liker_id", likerId)
+    .eq("liked_id", likedId);
+  if (error) console.error("[supabase] unlike failed", error);
+}
+
+export async function listMatches(userId: string): Promise<Profile[]> {
+  const client = getAdminClient();
+  if (!client) return [];
+
+  const { data: outgoing, error: outErr } = await client
+    .from("likes")
+    .select("liked_id")
+    .eq("liker_id", userId);
+  if (outErr) {
+    console.error("[supabase] listMatches outgoing failed", outErr);
+    return [];
+  }
+  const likedIds = (outgoing ?? []).map((r) => r.liked_id as string);
+  if (likedIds.length === 0) return [];
+
+  const { data: incoming, error: inErr } = await client
+    .from("likes")
+    .select("liker_id")
+    .eq("liked_id", userId)
+    .in("liker_id", likedIds);
+  if (inErr) {
+    console.error("[supabase] listMatches incoming failed", inErr);
+    return [];
+  }
+  const mutualIds = (incoming ?? []).map((r) => r.liker_id as string);
+  if (mutualIds.length === 0) return [];
+
+  const { data: profiles, error: profErr } = await client
+    .from("profiles")
+    .select("*")
+    .in("user_id", mutualIds);
+  if (profErr) {
+    console.error("[supabase] listMatches profiles failed", profErr);
+    return [];
+  }
+  return (profiles ?? []) as Profile[];
+}

@@ -2,22 +2,18 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { getLikedIds, getProfile, listMatchableProfiles } from "@/lib/supabase";
-import { LikeButton } from "@/app/components/LikeButton";
+import { getProfile, listMatches } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
-export default async function BrowsePage() {
+export default async function MatchesPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/");
 
   const me = await getProfile(session.user.id);
   if (!me) redirect("/profile/edit");
 
-  const [profiles, likedIds] = await Promise.all([
-    listMatchableProfiles(session.user.id, me),
-    getLikedIds(session.user.id),
-  ]);
+  const matches = await listMatches(session.user.id);
 
   return (
     <main className="container browse-page">
@@ -25,25 +21,25 @@ export default async function BrowsePage() {
         <Link href="/" className="back-link">
           ← Home
         </Link>
-        <h1>Discover</h1>
+        <h1>Your matches</h1>
         <p className="muted">
-          Believers on the island who match what you&apos;re looking for.
+          People you&apos;ve liked who also liked you back.
         </p>
       </header>
 
-      {profiles.length === 0 ? (
+      {matches.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-icon">🏝️</div>
-          <h2>No matches just yet</h2>
+          <div className="empty-icon">💛</div>
+          <h2>No matches yet</h2>
           <p className="muted">
-            Check back soon — we&apos;re a new community and members are
-            joining every week. Invite a friend from your church to grow the
-            family.
+            Keep liking profiles on the <Link href="/browse">Discover</Link>{" "}
+            page. When someone you liked likes you back, you&apos;ll see them
+            here.
           </p>
         </div>
       ) : (
         <ul className="profile-grid">
-          {profiles.map((p) => (
+          {matches.map((p) => (
             <li key={p.user_id} className="profile-card">
               <div className="card-photo">
                 {p.photo_url ? (
@@ -67,14 +63,7 @@ export default async function BrowsePage() {
                 {p.church_name && (
                   <p className="card-church muted small">{p.church_name}</p>
                 )}
-                {p.bio && <p className="card-bio">{truncate(p.bio, 180)}</p>}
-                <div className="card-actions">
-                  <LikeButton
-                    likedId={p.user_id}
-                    initialLiked={likedIds.has(p.user_id)}
-                    displayName={p.display_name}
-                  />
-                </div>
+                {p.bio && <p className="card-bio">{p.bio}</p>}
               </div>
             </li>
           ))}
@@ -82,9 +71,4 @@ export default async function BrowsePage() {
       )}
     </main>
   );
-}
-
-function truncate(text: string, max: number): string {
-  if (text.length <= max) return text;
-  return text.slice(0, max).trimEnd() + "…";
 }
