@@ -103,3 +103,29 @@ export async function upsertProfile(profile: Profile): Promise<Profile | null> {
   }
   return data as Profile;
 }
+
+export async function listMatchableProfiles(
+  excludeUserId: string,
+  viewer: Profile
+): Promise<Profile[]> {
+  const client = getAdminClient();
+  if (!client) return [];
+
+  let query = client
+    .from("profiles")
+    .select("*")
+    .neq("user_id", excludeUserId)
+    .order("updated_at", { ascending: false })
+    .limit(50);
+
+  if (viewer.looking_for === "male" || viewer.looking_for === "female") {
+    query = query.eq("gender", viewer.looking_for);
+  }
+
+  const { data, error } = await query;
+  if (error) {
+    console.error("[supabase] listMatchableProfiles failed", error);
+    return [];
+  }
+  return (data ?? []) as Profile[];
+}
