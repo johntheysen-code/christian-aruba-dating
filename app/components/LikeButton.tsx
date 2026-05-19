@@ -6,9 +6,15 @@ type Props = {
   likedId: string;
   initialLiked: boolean;
   displayName: string;
+  compact?: boolean;
 };
 
-export function LikeButton({ likedId, initialLiked, displayName }: Props) {
+export function LikeButton({
+  likedId,
+  initialLiked,
+  displayName,
+  compact = false,
+}: Props) {
   const [liked, setLiked] = useState(initialLiked);
   const [pending, setPending] = useState(false);
   const [matchToast, setMatchToast] = useState(false);
@@ -48,15 +54,24 @@ export function LikeButton({ likedId, initialLiked, displayName }: Props) {
     <>
       <button
         type="button"
-        className={`like-btn ${liked ? "is-liked" : ""}`}
+        className={`${compact ? "like-fab" : "like-btn"} ${liked ? "is-liked" : ""}`}
         onClick={toggle}
         aria-label={liked ? `Unlike ${displayName}` : `Like ${displayName}`}
         disabled={pending}
       >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill={liked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          width={compact ? 22 : 20}
+          height={compact ? 22 : 20}
+          viewBox="0 0 24 24"
+          fill={liked ? "currentColor" : "none"}
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
         </svg>
-        <span>{liked ? "Liked" : "Like"}</span>
+        {!compact && <span>{liked ? "Liked" : "Like"}</span>}
       </button>
       {matchToast && (
         <div className="match-toast" role="status">

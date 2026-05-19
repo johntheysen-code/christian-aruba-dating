@@ -10,6 +10,7 @@ import {
 } from "@/lib/supabase";
 import { LikeButton } from "@/app/components/LikeButton";
 import { Filters } from "./Filters";
+import { ActiveFilterChips } from "./ActiveFilterChips";
 
 export const dynamic = "force-dynamic";
 
@@ -48,11 +49,12 @@ export default async function BrowsePage({
       <header className="browse-header">
         <h1>Discover</h1>
         <p className="muted">
-          Believers on the island who match what you&apos;re looking for.
+          Believers on the island who share your faith.
         </p>
       </header>
 
       <Filters resultCount={profiles.length} />
+      <ActiveFilterChips filters={filters} />
 
       {profiles.length === 0 ? (
         <div className="empty-state">
@@ -63,41 +65,53 @@ export default async function BrowsePage({
           </p>
         </div>
       ) : (
-        <ul className="profile-grid">
+        <ul className="discover-grid">
           {profiles.map((p) => (
-            <li key={p.user_id} className="profile-card">
-              <Link href={`/profile/${p.user_id}`} className="card-photo">
+            <li key={p.user_id} className="discover-card">
+              <Link
+                href={`/profile/${p.user_id}`}
+                className="discover-photo"
+                aria-label={`View ${p.display_name}'s profile`}
+              >
                 {p.photo_url ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={p.photo_url} alt={`${p.display_name}'s photo`} />
+                  <img src={p.photo_url} alt="" />
                 ) : (
                   <div className="photo-placeholder">
                     {p.display_name.charAt(0).toUpperCase()}
                   </div>
                 )}
-              </Link>
-              <div className="card-body">
-                <Link href={`/profile/${p.user_id}`} className="card-name-link">
+                <div className="discover-gradient" aria-hidden="true" />
+                <div className="discover-overlay">
                   <h3>
                     {p.display_name}
                     {p.age && <span className="age">, {p.age}</span>}
                   </h3>
-                </Link>
+                  {p.location && (
+                    <p className="discover-loc">📍 {p.location}</p>
+                  )}
+                </div>
+              </Link>
+
+              <div className="discover-fab">
+                <LikeButton
+                  likedId={p.user_id}
+                  initialLiked={likedIds.has(p.user_id)}
+                  displayName={p.display_name}
+                  compact
+                />
+              </div>
+
+              <div className="discover-body">
                 <div className="card-meta">
-                  {p.denomination && <span className="tag">⛪ {p.denomination}</span>}
-                  {p.location && <span className="tag">🏝️ {p.location}</span>}
+                  {p.denomination && (
+                    <span className="tag">⛪ {p.denomination}</span>
+                  )}
                 </div>
                 {p.church_name && (
                   <p className="card-church muted small">{p.church_name}</p>
                 )}
-                {p.bio && <p className="card-bio">{truncate(p.bio, 180)}</p>}
-                <div className="card-actions">
-                  <LikeButton
-                    likedId={p.user_id}
-                    initialLiked={likedIds.has(p.user_id)}
-                    displayName={p.display_name}
-                  />
-                </div>
+                {p.bio && <p className="card-bio">{truncate(p.bio, 140)}</p>}
               </div>
             </li>
           ))}
