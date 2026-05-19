@@ -343,7 +343,15 @@ export async function uploadAvatar(
     });
   if (uploadError) {
     console.error("[supabase] avatar upload failed", uploadError);
-    return { ok: false, error: "Upload failed — try again" };
+    const msg = uploadError.message || "Upload failed";
+    if (/bucket.*not.*found|404/i.test(msg)) {
+      return {
+        ok: false,
+        error:
+          "Storage bucket 'avatars' not found. Create it in Supabase → Storage.",
+      };
+    }
+    return { ok: false, error: `Upload failed: ${msg}` };
   }
 
   const { data } = client.storage.from(BUCKET).getPublicUrl(path);
