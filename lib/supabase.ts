@@ -309,6 +309,47 @@ export async function markThreadRead(
   if (error) console.error("[supabase] markThreadRead failed", error);
 }
 
+const BUCKET = "avatars";
+const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+const MAX_BYTES = 4 * 1024 * 1024;
+
+export type UploadResult =
+  | { ok: true; url: string }
+  | { ok: false; error: string };
+
+export async function uploadAvatar(
+  userId: string,
+  file: File
+): Promise<UploadResult> {
+  const client = getAdminClient();
+  if (!client) return { ok: false, error: "Storage not configured" };
+
+  if (!ALLOWED_TYPES.has(file.type)) {
+    return { ok: false, error: "Please upload a JPEG, PNG, or WebP image" };
+  }
+  if (file.size > MAX_BYTES) {
+    return { ok: false, error: "Image must be under 4 MB" };
+  }
+
+  const ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
+  const path = `${userId}/${Date.now()}.${ext}`;
+
+  const { error: uploadError } = await client.storage
+    .from(BUCKET)
+    .upload(path, file, {
+      contentType: file.type,
+      cacheControl: "3600",
+      upsert: false,
+    });
+  if (uploadError) {
+    console.error("[supabase] avatar upload failed", uploadError);
+    return { ok: false, error: "Upload failed — try again" };
+  }
+
+  const { data } = client.storage.from(BUCKET).getPublicUrl(path);
+  return { ok: true, url: data.publicUrl };
+}
+
 export type ConversationSummary = {
   partner: Profile;
   last_message: Message | null;

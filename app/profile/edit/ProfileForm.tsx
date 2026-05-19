@@ -36,6 +36,8 @@ export function ProfileForm({ initial, fallbackName, fallbackPhoto }: Props) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   const [form, setForm] = useState({
     display_name: initial?.display_name ?? fallbackName.split(" ")[0] ?? "",
@@ -48,6 +50,35 @@ export function ProfileForm({ initial, fallbackName, fallbackPhoto }: Props) {
     bio: initial?.bio ?? "",
     photo_url: initial?.photo_url ?? fallbackPhoto,
   });
+
+  const isFacebookPhoto =
+    form.photo_url === fallbackPhoto && fallbackPhoto.length > 0;
+
+  async function handlePhotoUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    setUploadError(null);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/profile/photo", {
+        method: "POST",
+        body: fd,
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setUploadError(data.error ?? "Upload failed");
+      } else {
+        setForm((f) => ({ ...f, photo_url: data.url }));
+      }
+    } catch {
+      setUploadError("Network error — try again");
+    } finally {
+      setUploading(false);
+      e.target.value = "";
+    }
+  }
 
   function update<K extends keyof typeof form>(key: K, value: string) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -83,13 +114,32 @@ export function ProfileForm({ initial, fallbackName, fallbackPhoto }: Props) {
 
   return (
     <form className="profile-form" onSubmit={handleSubmit}>
-      {form.photo_url && (
-        <div className="photo-preview">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+      <div className="photo-preview">
+        {form.photo_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img src={form.photo_url} alt="Profile photo" />
-          <p className="muted small">From your Facebook profile</p>
-        </div>
-      )}
+        ) : (
+          <div className="photo-placeholder large">
+            {form.display_name.charAt(0).toUpperCase() || "?"}
+          </div>
+        )}
+        <label className="photo-upload-label">
+          {uploading ? "Uploading…" : "Change photo"}
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onChange={handlePhotoUpload}
+            disabled={uploading}
+            hidden
+          />
+        </label>
+        <p className="muted small">
+          {isFacebookPhoto
+            ? "Using your Facebook photo. Upload your own to make it your own."
+            : "JPEG, PNG, or WebP up to 4 MB"}
+        </p>
+        {uploadError && <p className="alert error small">{uploadError}</p>}
+      </div>
 
       <Field label="Display name" required>
         <input
