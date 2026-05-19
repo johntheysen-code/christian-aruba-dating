@@ -4,7 +4,6 @@ import { authOptions } from "@/lib/auth";
 import { getProfile, upsertProfile, type Profile } from "@/lib/supabase";
 
 const GENDERS = ["male", "female"] as const;
-const LOOKING_FOR = ["male", "female", "both"] as const;
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -46,21 +45,14 @@ export async function POST(req: Request) {
   if (!GENDERS.includes(gender as (typeof GENDERS)[number])) {
     return NextResponse.json({ error: "Pick a gender" }, { status: 400 });
   }
-
-  const lookingFor = String(body.looking_for ?? "");
-  if (!LOOKING_FOR.includes(lookingFor as (typeof LOOKING_FOR)[number])) {
-    return NextResponse.json(
-      { error: "Pick who you're looking for" },
-      { status: 400 }
-    );
-  }
+  const lookingFor: "male" | "female" = gender === "male" ? "female" : "male";
 
   const profile: Profile = {
     user_id: session.user.id,
     display_name: displayName,
     age: ageNum,
     gender: gender as "male" | "female",
-    looking_for: lookingFor as "male" | "female" | "both",
+    looking_for: lookingFor,
     denomination: optionalStr(body.denomination, 80),
     church_name: optionalStr(body.church_name, 120),
     location: optionalStr(body.location, 80),

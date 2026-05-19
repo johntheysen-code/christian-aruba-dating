@@ -163,32 +163,17 @@ export function ProfileForm({ initial, fallbackName, fallbackPhoto }: Props) {
         />
       </Field>
 
-      <div className="row-2">
-        <Field label="I am" required>
-          <select
-            value={form.gender}
-            onChange={(e) => update("gender", e.target.value)}
-            required
-          >
-            <option value="">Select…</option>
-            <option value="male">A man</option>
-            <option value="female">A woman</option>
-          </select>
-        </Field>
-
-        <Field label="Looking for" required>
-          <select
-            value={form.looking_for}
-            onChange={(e) => update("looking_for", e.target.value)}
-            required
-          >
-            <option value="">Select…</option>
-            <option value="female">Women</option>
-            <option value="male">Men</option>
-            <option value="both">Both</option>
-          </select>
-        </Field>
-      </div>
+      <Field label="I am" required>
+        <select
+          value={form.gender}
+          onChange={(e) => update("gender", e.target.value)}
+          required
+        >
+          <option value="">Select…</option>
+          <option value="male">A man seeking a woman</option>
+          <option value="female">A woman seeking a man</option>
+        </select>
+      </Field>
 
       <Field label="Denomination">
         <select

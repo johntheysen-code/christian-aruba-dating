@@ -63,7 +63,7 @@ export type Profile = {
   display_name: string;
   age: number | null;
   gender: "male" | "female" | null;
-  looking_for: "male" | "female" | "both" | null;
+  looking_for: "male" | "female" | null;
   denomination: string | null;
   church_name: string | null;
   location: string | null;
@@ -126,7 +126,7 @@ export async function listMatchableProfiles(
     .order("updated_at", { ascending: false })
     .limit(50);
 
-  if (viewer.looking_for === "male" || viewer.looking_for === "female") {
+  if (viewer.looking_for) {
     query = query.eq("gender", viewer.looking_for);
   }
   if (filters.ageMin !== undefined) {
