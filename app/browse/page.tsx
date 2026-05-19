@@ -2,20 +2,44 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { getLikedIds, getProfile, listMatchableProfiles } from "@/lib/supabase";
+import {
+  getLikedIds,
+  getProfile,
+  listMatchableProfiles,
+  type BrowseFilters,
+} from "@/lib/supabase";
 import { LikeButton } from "@/app/components/LikeButton";
+import { Filters } from "./Filters";
 
 export const dynamic = "force-dynamic";
 
-export default async function BrowsePage() {
+function parseAge(value: string | undefined): number | undefined {
+  if (!value) return undefined;
+  const n = parseInt(value, 10);
+  if (!Number.isInteger(n) || n < 18 || n > 100) return undefined;
+  return n;
+}
+
+export default async function BrowsePage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/");
 
   const me = await getProfile(session.user.id);
   if (!me) redirect("/profile/edit");
 
+  const filters: BrowseFilters = {
+    ageMin: parseAge(typeof searchParams.age_min === "string" ? searchParams.age_min : undefined),
+    ageMax: parseAge(typeof searchParams.age_max === "string" ? searchParams.age_max : undefined),
+    denomination: typeof searchParams.denomination === "string" ? searchParams.denomination : undefined,
+    location: typeof searchParams.location === "string" ? searchParams.location : undefined,
+  };
+
   const [profiles, likedIds] = await Promise.all([
-    listMatchableProfiles(session.user.id, me),
+    listMatchableProfiles(session.user.id, me, filters),
     getLikedIds(session.user.id),
   ]);
 
@@ -31,14 +55,14 @@ export default async function BrowsePage() {
         </p>
       </header>
 
+      <Filters resultCount={profiles.length} />
+
       {profiles.length === 0 ? (
         <div className="empty-state">
           <div className="empty-icon">🏝️</div>
-          <h2>No matches just yet</h2>
+          <h2>No matches found</h2>
           <p className="muted">
-            Check back soon — we&apos;re a new community and members are
-            joining every week. Invite a friend from your church to grow the
-            family.
+            Try widening your filters, or check back soon as new members join.
           </p>
         </div>
       ) : (

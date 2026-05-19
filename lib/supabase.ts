@@ -104,9 +104,17 @@ export async function upsertProfile(profile: Profile): Promise<Profile | null> {
   return data as Profile;
 }
 
+export type BrowseFilters = {
+  ageMin?: number;
+  ageMax?: number;
+  denomination?: string;
+  location?: string;
+};
+
 export async function listMatchableProfiles(
   excludeUserId: string,
-  viewer: Profile
+  viewer: Profile,
+  filters: BrowseFilters = {}
 ): Promise<Profile[]> {
   const client = getAdminClient();
   if (!client) return [];
@@ -120,6 +128,18 @@ export async function listMatchableProfiles(
 
   if (viewer.looking_for === "male" || viewer.looking_for === "female") {
     query = query.eq("gender", viewer.looking_for);
+  }
+  if (filters.ageMin !== undefined) {
+    query = query.gte("age", filters.ageMin);
+  }
+  if (filters.ageMax !== undefined) {
+    query = query.lte("age", filters.ageMax);
+  }
+  if (filters.denomination) {
+    query = query.eq("denomination", filters.denomination);
+  }
+  if (filters.location) {
+    query = query.eq("location", filters.location);
   }
 
   const { data, error } = await query;
