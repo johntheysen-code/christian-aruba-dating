@@ -41,7 +41,7 @@ export default async function MatchesPage() {
         <ul className="profile-grid">
           {matches.map((p) => (
             <li key={p.user_id} className="profile-card">
-              <div className="card-photo">
+              <Link href={`/profile/${p.user_id}`} className="card-photo">
                 {p.photo_url ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={p.photo_url} alt={`${p.display_name}'s photo`} />
@@ -50,12 +50,14 @@ export default async function MatchesPage() {
                     {p.display_name.charAt(0).toUpperCase()}
                   </div>
                 )}
-              </div>
+              </Link>
               <div className="card-body">
-                <h3>
-                  {p.display_name}
-                  {p.age && <span className="age">, {p.age}</span>}
-                </h3>
+                <Link href={`/profile/${p.user_id}`} className="card-name-link">
+                  <h3>
+                    {p.display_name}
+                    {p.age && <span className="age">, {p.age}</span>}
+                  </h3>
+                </Link>
                 <div className="card-meta">
                   {p.denomination && <span className="tag">⛪ {p.denomination}</span>}
                   {p.location && <span className="tag">🏝️ {p.location}</span>}
