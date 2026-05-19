@@ -325,6 +325,72 @@ export async function setPrimaryPhoto(
   return saved?.photos ?? null;
 }
 
+export type QuizAnswerRow = {
+  question_id: string;
+  answer_index: number;
+};
+
+export async function getQuizAnswers(userId: string): Promise<QuizAnswerRow[]> {
+  const client = getAdminClient();
+  if (!client) return [];
+  const { data, error } = await client
+    .from("quiz_answers")
+    .select("question_id, answer_index")
+    .eq("user_id", userId);
+  if (error) {
+    console.error("[supabase] getQuizAnswers failed", error);
+    return [];
+  }
+  return (data ?? []) as QuizAnswerRow[];
+}
+
+export async function getQuizAnswersFor(
+  userIds: string[]
+): Promise<Map<string, QuizAnswerRow[]>> {
+  const result = new Map<string, QuizAnswerRow[]>();
+  const client = getAdminClient();
+  if (!client || userIds.length === 0) return result;
+  const { data, error } = await client
+    .from("quiz_answers")
+    .select("user_id, question_id, answer_index")
+    .in("user_id", userIds);
+  if (error) {
+    console.error("[supabase] getQuizAnswersFor failed", error);
+    return result;
+  }
+  for (const row of (data ?? []) as Array<
+    QuizAnswerRow & { user_id: string }
+  >) {
+    const list = result.get(row.user_id) ?? [];
+    list.push({ question_id: row.question_id, answer_index: row.answer_index });
+    result.set(row.user_id, list);
+  }
+  return result;
+}
+
+export async function saveQuizAnswers(
+  userId: string,
+  answers: Array<{ question_id: string; answer_index: number }>
+): Promise<boolean> {
+  const client = getAdminClient();
+  if (!client) return false;
+
+  await client.from("quiz_answers").delete().eq("user_id", userId);
+  if (answers.length === 0) return true;
+
+  const rows = answers.map((a) => ({
+    user_id: userId,
+    question_id: a.question_id,
+    answer_index: a.answer_index,
+  }));
+  const { error } = await client.from("quiz_answers").insert(rows);
+  if (error) {
+    console.error("[supabase] saveQuizAnswers failed", error);
+    return false;
+  }
+  return true;
+}
+
 export async function getLikedIds(likerId: string): Promise<Set<string>> {
   const client = getAdminClient();
   if (!client) return new Set();

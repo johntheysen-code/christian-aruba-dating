@@ -5,9 +5,12 @@ import { authOptions } from "@/lib/auth";
 import {
   getLikedIds,
   getProfile,
+  getQuizAnswers,
+  getQuizAnswersFor,
   listMatchableProfiles,
   type BrowseFilters,
 } from "@/lib/supabase";
+import { computeCompatibility, toAnswerMap } from "@/lib/quiz";
 import { LikeButton } from "@/app/components/LikeButton";
 import { PassButton } from "@/app/components/PassButton";
 import { Filters } from "./Filters";
@@ -40,10 +43,29 @@ export default async function BrowsePage({
     location: typeof searchParams.location === "string" ? searchParams.location : undefined,
   };
 
-  const [profiles, likedIds] = await Promise.all([
+  const [profiles, likedIds, myAnswers] = await Promise.all([
     listMatchableProfiles(session.user.id, me, filters),
     getLikedIds(session.user.id),
+    getQuizAnswers(session.user.id),
   ]);
+
+  const myAnswerMap = toAnswerMap(myAnswers);
+  const otherAnswersMap = await getQuizAnswersFor(
+    profiles.map((p) => p.user_id)
+  );
+  const compatibility = new Map<string, number | null>();
+  for (const p of profiles) {
+    const theirRows = otherAnswersMap.get(p.user_id) ?? [];
+    if (theirRows.length === 0 || myAnswers.length === 0) {
+      compatibility.set(p.user_id, null);
+      continue;
+    }
+    const result = computeCompatibility(myAnswerMap, toAnswerMap(theirRows));
+    compatibility.set(
+      p.user_id,
+      result.answeredBoth > 0 ? result.overall : null
+    );
+  }
 
   return (
     <main className="container browse-page">
@@ -92,6 +114,16 @@ export default async function BrowsePage({
                     <p className="discover-loc">📍 {p.location}</p>
                   )}
                 </div>
+                {compatibility.get(p.user_id) !== null &&
+                  compatibility.get(p.user_id) !== undefined && (
+                    <span
+                      className={`compat-badge ${compatBadgeClass(
+                        compatibility.get(p.user_id)!
+                      )}`}
+                    >
+                      {compatibility.get(p.user_id)}% match
+                    </span>
+                  )}
               </Link>
 
               <div className="discover-fab">
@@ -129,4 +161,11 @@ export default async function BrowsePage({
 function truncate(text: string, max: number): string {
   if (text.length <= max) return text;
   return text.slice(0, max).trimEnd() + "…";
+}
+
+function compatBadgeClass(score: number): string {
+  if (score >= 85) return "great";
+  if (score >= 70) return "good";
+  if (score >= 50) return "ok";
+  return "low";
 }

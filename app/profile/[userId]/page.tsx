@@ -5,9 +5,16 @@ import { authOptions } from "@/lib/auth";
 import {
   getLikedIds,
   getProfile,
+  getQuizAnswers,
   isBlocked,
   isMatched,
 } from "@/lib/supabase";
+import {
+  CATEGORY_LABELS,
+  computeCompatibility,
+  toAnswerMap,
+  type QuizCategory,
+} from "@/lib/quiz";
 import { LikeButton } from "@/app/components/LikeButton";
 import { ProfileActions } from "@/app/components/ProfileActions";
 
@@ -62,10 +69,17 @@ export default async function ProfileDetailPage({
     if (blocked) notFound();
   }
 
-  const [likedIds, matched] = await Promise.all([
+  const [likedIds, matched, myAnswers, theirAnswers] = await Promise.all([
     isSelf ? Promise.resolve(new Set<string>()) : getLikedIds(session.user.id),
     isSelf ? Promise.resolve(false) : isMatched(session.user.id, params.userId),
+    isSelf ? Promise.resolve([]) : getQuizAnswers(session.user.id),
+    isSelf ? Promise.resolve([]) : getQuizAnswers(params.userId),
   ]);
+
+  const compatibility =
+    !isSelf && myAnswers.length > 0 && theirAnswers.length > 0
+      ? computeCompatibility(toAnswerMap(myAnswers), toAnswerMap(theirAnswers))
+      : null;
 
   const photos =
     profile.photos && profile.photos.length > 0
@@ -144,6 +158,55 @@ export default async function ProfileDetailPage({
           </div>
         </div>
       </div>
+
+      {compatibility && compatibility.answeredBoth > 0 && (
+        <section className="detail-section compat-section">
+          <div className="compat-headline">
+            <h2>Compatibility</h2>
+            <span className={`compat-score ${compatScoreClass(compatibility.overall)}`}>
+              {compatibility.overall}%
+            </span>
+          </div>
+          <p className="muted small">
+            Based on {compatibility.answeredBoth} of {compatibility.totalQuestions}{" "}
+            questions you both answered.
+          </p>
+          <div className="compat-bars">
+            {(Object.keys(CATEGORY_LABELS) as QuizCategory[]).map((cat) => {
+              const pct = compatibility.byCategory[cat];
+              if (pct === undefined) return null;
+              return (
+                <div key={cat} className="compat-bar-row">
+                  <span className="compat-bar-label">{CATEGORY_LABELS[cat]}</span>
+                  <div className="compat-bar-track">
+                    <div
+                      className={`compat-bar-fill ${compatScoreClass(pct)}`}
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                  <span className="compat-bar-pct">{pct}%</span>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {!isSelf && (myAnswers.length === 0 || theirAnswers.length === 0) && (
+        <section className="detail-section compat-prompt">
+          <h2>Compatibility quiz</h2>
+          <p className="muted">
+            {myAnswers.length === 0
+              ? "Take the quiz to see how well you align with other members."
+              : `${profile.display_name} hasn't taken the compatibility quiz yet.`}
+          </p>
+          {myAnswers.length === 0 && (
+            <Link href="/quiz" className="btn btn-facebook">
+              Take the quiz
+            </Link>
+          )}
+        </section>
+      )}
 
       {photos.length > 1 && (
         <section className="detail-section">
@@ -231,4 +294,11 @@ export default async function ProfileDetailPage({
       )}
     </main>
   );
+}
+
+function compatScoreClass(score: number): string {
+  if (score >= 85) return "great";
+  if (score >= 70) return "good";
+  if (score >= 50) return "ok";
+  return "low";
 }

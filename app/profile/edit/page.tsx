@@ -1,7 +1,9 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { getProfile } from "@/lib/supabase";
+import { getProfile, getQuizAnswers } from "@/lib/supabase";
+import { QUIZ_QUESTIONS } from "@/lib/quiz";
 import { ProfileForm } from "./ProfileForm";
 
 export const dynamic = "force-dynamic";
@@ -12,7 +14,14 @@ export default async function ProfileEditPage() {
     redirect("/");
   }
 
-  const existing = await getProfile(session.user.id);
+  const [existing, quizAnswers] = await Promise.all([
+    getProfile(session.user.id),
+    getQuizAnswers(session.user.id),
+  ]);
+
+  const quizPct = Math.round(
+    (quizAnswers.length / QUIZ_QUESTIONS.length) * 100
+  );
 
   return (
     <main className="container profile-page">
@@ -23,6 +32,29 @@ export default async function ProfileEditPage() {
           looking for.
         </p>
       </header>
+
+      {existing && (
+        <Link href="/quiz" className="quiz-cta">
+          <div>
+            <strong>Compatibility quiz</strong>
+            <p className="muted small">
+              {quizAnswers.length === 0
+                ? "Take the quiz to see how well you align with other members."
+                : `${quizAnswers.length} of ${QUIZ_QUESTIONS.length} questions answered`}
+            </p>
+          </div>
+          <div className="quiz-cta-progress" aria-hidden="true">
+            <div className="quiz-cta-bar">
+              <div
+                className="quiz-cta-fill"
+                style={{ width: `${quizPct}%` }}
+              />
+            </div>
+            <span>{quizPct}%</span>
+          </div>
+        </Link>
+      )}
+
       <ProfileForm
         initial={existing}
         fallbackName={session.user.name ?? ""}
