@@ -18,9 +18,6 @@ export default async function MessagesPage() {
   return (
     <main className="container browse-page">
       <header className="browse-header">
-        <Link href="/" className="back-link">
-          ← Home
-        </Link>
         <h1>Messages</h1>
         <p className="muted">Conversations with your matches.</p>
       </header>

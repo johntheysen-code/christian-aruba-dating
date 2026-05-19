@@ -13,15 +13,6 @@ export default async function HomePage() {
 
   return (
     <>
-      <header className="container">
-        <nav className="nav">
-          <div className="brand">
-            Christian<span>Aruba</span>Dating
-          </div>
-          <AuthButton variant="ghost" />
-        </nav>
-      </header>
-
       <main>
         <section className="container hero">
           <div>

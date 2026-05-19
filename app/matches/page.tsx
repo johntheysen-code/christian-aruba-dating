@@ -18,9 +18,6 @@ export default async function MatchesPage() {
   return (
     <main className="container browse-page">
       <header className="browse-header">
-        <Link href="/" className="back-link">
-          ← Home
-        </Link>
         <h1>Your matches</h1>
         <p className="muted">
           People you&apos;ve liked who also liked you back.

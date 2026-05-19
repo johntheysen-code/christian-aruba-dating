@@ -46,9 +46,6 @@ export default async function BrowsePage({
   return (
     <main className="container browse-page">
       <header className="browse-header">
-        <Link href="/" className="back-link">
-          ← Home
-        </Link>
         <h1>Discover</h1>
         <p className="muted">
           Believers on the island who match what you&apos;re looking for.

@@ -17,9 +17,6 @@ export default async function ProfileEditPage() {
   return (
     <main className="container profile-page">
       <header className="profile-header">
-        <a href="/" className="back-link">
-          ← Back
-        </a>
         <h1>{existing ? "Edit your profile" : "Create your profile"}</h1>
         <p className="muted">
           Tell other believers a bit about who you are and what you&apos;re

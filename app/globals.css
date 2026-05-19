@@ -47,10 +47,87 @@ a {
   font-size: 1.25rem;
   color: var(--ocean-dark);
   letter-spacing: -0.01em;
+  text-decoration: none;
 }
 
 .brand span {
   color: var(--coral);
+}
+
+.topnav-wrap {
+  background: white;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: saturate(180%) blur(8px);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.topnav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.85rem 1.25rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: 1rem;
+  flex: 1;
+}
+
+@media (max-width: 640px) {
+  .topnav {
+    gap: 0.5rem;
+    padding: 0.7rem 1rem;
+  }
+  .nav-links {
+    margin-left: 0;
+    gap: 0;
+  }
+}
+
+.nav-link {
+  position: relative;
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+@media (max-width: 500px) {
+  .nav-link {
+    padding: 0.45rem 0.55rem;
+    font-size: 0.85rem;
+  }
+}
+
+.nav-link:hover {
+  color: var(--ocean-dark);
+  background: var(--sand);
+}
+
+.nav-link.is-active {
+  color: var(--ocean-dark);
+  background: var(--sand);
+}
+
+.nav-badge {
+  display: inline-block;
+  margin-left: 0.4rem;
+  background: var(--coral);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  vertical-align: 1px;
 }
 
 .hero {

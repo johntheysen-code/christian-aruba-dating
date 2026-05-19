@@ -314,6 +314,21 @@ export async function listThread(
   return (data ?? []) as Message[];
 }
 
+export async function countUnreadMessages(userId: string): Promise<number> {
+  const client = getAdminClient();
+  if (!client) return 0;
+  const { count, error } = await client
+    .from("messages")
+    .select("*", { count: "exact", head: true })
+    .eq("recipient_id", userId)
+    .is("read_at", null);
+  if (error) {
+    console.error("[supabase] countUnreadMessages failed", error);
+    return 0;
+  }
+  return count ?? 0;
+}
+
 export async function markThreadRead(
   viewerId: string,
   otherId: string

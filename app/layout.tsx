@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
+import { TopNav } from "./components/TopNav";
 
 export const metadata: Metadata = {
   title: "Christian Aruba Dating — Faith, Love & Community",
@@ -22,7 +23,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <TopNav />
+          {children}
+        </Providers>
       </body>
     </html>
   );
