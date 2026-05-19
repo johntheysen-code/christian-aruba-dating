@@ -69,6 +69,13 @@ export type Profile = {
   location: string | null;
   bio: string | null;
   photo_url: string | null;
+  photos: string[] | null;
+  favorite_verse: string | null;
+  statement_of_faith: string | null;
+  church_attendance: string | null;
+  prayer_life: string | null;
+  marriage_intention: string | null;
+  children_plans: string | null;
 };
 
 export async function getProfile(userId: string): Promise<Profile | null> {
@@ -119,10 +126,13 @@ export async function listMatchableProfiles(
   const client = getAdminClient();
   if (!client) return [];
 
+  const excludedIds = await getHiddenUserIds(excludeUserId);
+  excludedIds.add(excludeUserId);
+
   let query = client
     .from("profiles")
     .select("*")
-    .neq("user_id", excludeUserId)
+    .not("user_id", "in", `(${Array.from(excludedIds).map((id) => `"${id}"`).join(",") || `""`})`)
     .order("updated_at", { ascending: false })
     .limit(50);
 
@@ -148,6 +158,171 @@ export async function listMatchableProfiles(
     return [];
   }
   return (data ?? []) as Profile[];
+}
+
+async function getHiddenUserIds(userId: string): Promise<Set<string>> {
+  const client = getAdminClient();
+  if (!client) return new Set();
+  const hidden = new Set<string>();
+
+  const [{ data: passes }, { data: blocksOut }, { data: blocksIn }] =
+    await Promise.all([
+      client.from("passes").select("passed_id").eq("passer_id", userId),
+      client.from("blocks").select("blocked_id").eq("blocker_id", userId),
+      client.from("blocks").select("blocker_id").eq("blocked_id", userId),
+    ]);
+
+  for (const r of passes ?? []) hidden.add(r.passed_id as string);
+  for (const r of blocksOut ?? []) hidden.add(r.blocked_id as string);
+  for (const r of blocksIn ?? []) hidden.add(r.blocker_id as string);
+  return hidden;
+}
+
+export async function pass(passerId: string, passedId: string): Promise<void> {
+  const client = getAdminClient();
+  if (!client || passerId === passedId) return;
+  const { error } = await client
+    .from("passes")
+    .upsert(
+      { passer_id: passerId, passed_id: passedId },
+      { onConflict: "passer_id,passed_id" }
+    );
+  if (error) console.error("[supabase] pass failed", error);
+}
+
+export async function isBlocked(
+  viewerId: string,
+  otherId: string
+): Promise<boolean> {
+  const client = getAdminClient();
+  if (!client) return false;
+  const { data, error } = await client
+    .from("blocks")
+    .select("blocker_id")
+    .or(
+      `and(blocker_id.eq.${viewerId},blocked_id.eq.${otherId}),and(blocker_id.eq.${otherId},blocked_id.eq.${viewerId})`
+    )
+    .limit(1);
+  if (error) return false;
+  return (data?.length ?? 0) > 0;
+}
+
+export async function block(blockerId: string, blockedId: string): Promise<void> {
+  const client = getAdminClient();
+  if (!client || blockerId === blockedId) return;
+  await client
+    .from("blocks")
+    .upsert(
+      { blocker_id: blockerId, blocked_id: blockedId },
+      { onConflict: "blocker_id,blocked_id" }
+    );
+  await client
+    .from("likes")
+    .delete()
+    .or(
+      `and(liker_id.eq.${blockerId},liked_id.eq.${blockedId}),and(liker_id.eq.${blockedId},liked_id.eq.${blockerId})`
+    );
+}
+
+export async function unblock(blockerId: string, blockedId: string): Promise<void> {
+  const client = getAdminClient();
+  if (!client) return;
+  await client
+    .from("blocks")
+    .delete()
+    .eq("blocker_id", blockerId)
+    .eq("blocked_id", blockedId);
+}
+
+export async function listBlockedProfiles(userId: string): Promise<Profile[]> {
+  const client = getAdminClient();
+  if (!client) return [];
+  const { data: blocks } = await client
+    .from("blocks")
+    .select("blocked_id")
+    .eq("blocker_id", userId);
+  const ids = (blocks ?? []).map((r) => r.blocked_id as string);
+  if (ids.length === 0) return [];
+  const { data: profiles } = await client
+    .from("profiles")
+    .select("*")
+    .in("user_id", ids);
+  return (profiles ?? []) as Profile[];
+}
+
+export async function createReport(
+  reporterId: string,
+  reportedId: string,
+  reason: string,
+  details: string | null
+): Promise<boolean> {
+  const client = getAdminClient();
+  if (!client) return false;
+  const { error } = await client.from("reports").insert({
+    reporter_id: reporterId,
+    reported_id: reportedId,
+    reason,
+    details,
+  });
+  if (error) {
+    console.error("[supabase] createReport failed", error);
+    return false;
+  }
+  return true;
+}
+
+export async function addProfilePhoto(
+  userId: string,
+  url: string
+): Promise<string[] | null> {
+  const client = getAdminClient();
+  if (!client) return null;
+  const profile = await getProfile(userId);
+  if (!profile) return null;
+  const photos = [...(profile.photos ?? [])];
+  if (photos.length >= 6) return photos;
+  photos.push(url);
+  const next = {
+    ...profile,
+    photos,
+    photo_url: profile.photo_url ?? url,
+  };
+  const saved = await upsertProfile(next);
+  return saved?.photos ?? null;
+}
+
+export async function removeProfilePhoto(
+  userId: string,
+  url: string
+): Promise<string[] | null> {
+  const client = getAdminClient();
+  if (!client) return null;
+  const profile = await getProfile(userId);
+  if (!profile) return null;
+  const photos = (profile.photos ?? []).filter((p) => p !== url);
+  const next = {
+    ...profile,
+    photos,
+    photo_url:
+      profile.photo_url === url ? photos[0] ?? null : profile.photo_url,
+  };
+  const saved = await upsertProfile(next);
+  return saved?.photos ?? null;
+}
+
+export async function setPrimaryPhoto(
+  userId: string,
+  url: string
+): Promise<string[] | null> {
+  const client = getAdminClient();
+  if (!client) return null;
+  const profile = await getProfile(userId);
+  if (!profile) return null;
+  const photos = (profile.photos ?? []).filter((p) => p !== url);
+  photos.unshift(url);
+  const next = { ...profile, photos, photo_url: url };
+  const saved = await upsertProfile(next);
+  return saved?.photos ?? null;
 }
 
 export async function getLikedIds(likerId: string): Promise<Set<string>> {

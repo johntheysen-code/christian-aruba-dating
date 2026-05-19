@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { Profile } from "@/lib/supabase";
+import { PhotosManager } from "./PhotosManager";
 
 const DENOMINATIONS = [
   "Catholic",
@@ -25,6 +26,34 @@ const ARUBA_LOCATIONS = [
   "Other",
 ];
 
+const ATTENDANCE_OPTIONS = [
+  { value: "multiple", label: "Multiple times a week" },
+  { value: "weekly", label: "Every week" },
+  { value: "monthly", label: "A few times a month" },
+  { value: "occasionally", label: "Occasionally" },
+  { value: "rarely", label: "Rarely" },
+];
+
+const PRAYER_OPTIONS = [
+  { value: "daily", label: "Daily" },
+  { value: "weekly", label: "Weekly" },
+  { value: "occasionally", label: "Occasionally" },
+];
+
+const MARRIAGE_OPTIONS = [
+  { value: "ready", label: "Ready for marriage" },
+  { value: "open", label: "Open to marriage in time" },
+  { value: "taking_slow", label: "Taking it slow" },
+];
+
+const CHILDREN_OPTIONS = [
+  { value: "want", label: "Want children" },
+  { value: "have_want_more", label: "Have children, want more" },
+  { value: "have_done", label: "Have children, not planning more" },
+  { value: "no_kids", label: "Don't want children" },
+  { value: "undecided", label: "Undecided" },
+];
+
 type Props = {
   initial: Profile | null;
   fallbackName: string;
@@ -36,49 +65,22 @@ export function ProfileForm({ initial, fallbackName, fallbackPhoto }: Props) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const [uploadError, setUploadError] = useState<string | null>(null);
 
   const [form, setForm] = useState({
     display_name: initial?.display_name ?? fallbackName.split(" ")[0] ?? "",
     age: initial?.age ? String(initial.age) : "",
     gender: initial?.gender ?? "",
-    looking_for: initial?.looking_for ?? "",
     denomination: initial?.denomination ?? "",
     church_name: initial?.church_name ?? "",
     location: initial?.location ?? "",
     bio: initial?.bio ?? "",
-    photo_url: initial?.photo_url ?? fallbackPhoto,
+    favorite_verse: initial?.favorite_verse ?? "",
+    statement_of_faith: initial?.statement_of_faith ?? "",
+    church_attendance: initial?.church_attendance ?? "",
+    prayer_life: initial?.prayer_life ?? "",
+    marriage_intention: initial?.marriage_intention ?? "",
+    children_plans: initial?.children_plans ?? "",
   });
-
-  const isFacebookPhoto =
-    form.photo_url === fallbackPhoto && fallbackPhoto.length > 0;
-
-  async function handlePhotoUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploading(true);
-    setUploadError(null);
-    try {
-      const fd = new FormData();
-      fd.append("file", file);
-      const res = await fetch("/api/profile/photo", {
-        method: "POST",
-        body: fd,
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setUploadError(data.error ?? "Upload failed");
-      } else {
-        setForm((f) => ({ ...f, photo_url: data.url }));
-      }
-    } catch {
-      setUploadError("Network error — try again");
-    } finally {
-      setUploading(false);
-      e.target.value = "";
-    }
-  }
 
   function update<K extends keyof typeof form>(key: K, value: string) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -114,32 +116,9 @@ export function ProfileForm({ initial, fallbackName, fallbackPhoto }: Props) {
 
   return (
     <form className="profile-form" onSubmit={handleSubmit}>
-      <div className="photo-preview">
-        {form.photo_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={form.photo_url} alt="Profile photo" />
-        ) : (
-          <div className="photo-placeholder large">
-            {form.display_name.charAt(0).toUpperCase() || "?"}
-          </div>
-        )}
-        <label className="photo-upload-label">
-          {uploading ? "Uploading…" : "Change photo"}
-          <input
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            onChange={handlePhotoUpload}
-            disabled={uploading}
-            hidden
-          />
-        </label>
-        <p className="muted small">
-          {isFacebookPhoto
-            ? "Using your Facebook photo. Upload your own to make it your own."
-            : "JPEG, PNG, or WebP up to 4 MB"}
-        </p>
-        {uploadError && <p className="alert error small">{uploadError}</p>}
-      </div>
+      <PhotosManager
+        initialPhotos={initial?.photos ?? (initial?.photo_url ? [initial.photo_url] : fallbackPhoto ? [fallbackPhoto] : [])}
+      />
 
       <Field label="Display name" required>
         <input
@@ -222,6 +201,91 @@ export function ProfileForm({ initial, fallbackName, fallbackPhoto }: Props) {
           placeholder="Share a little about your faith, hobbies, and what you're hoping to find."
         />
         <p className="muted small">{form.bio.length} / 1000</p>
+      </Field>
+
+      <div className="section-divider">
+        <h2>Your faith</h2>
+        <p className="muted small">Optional, but it&apos;s what brings people here.</p>
+      </div>
+
+      <Field label="A scripture close to your heart">
+        <textarea
+          value={form.favorite_verse}
+          onChange={(e) => update("favorite_verse", e.target.value)}
+          rows={2}
+          maxLength={500}
+          placeholder="e.g. 'I can do all things through Christ who strengthens me.' — Philippians 4:13"
+        />
+      </Field>
+
+      <Field label="A short statement of faith">
+        <textarea
+          value={form.statement_of_faith}
+          onChange={(e) => update("statement_of_faith", e.target.value)}
+          rows={3}
+          maxLength={800}
+          placeholder="What do you believe? Where are you on your walk?"
+        />
+      </Field>
+
+      <Field label="Church attendance">
+        <select
+          value={form.church_attendance}
+          onChange={(e) => update("church_attendance", e.target.value)}
+        >
+          <option value="">Prefer not to say</option>
+          {ATTENDANCE_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      </Field>
+
+      <Field label="Prayer life">
+        <select
+          value={form.prayer_life}
+          onChange={(e) => update("prayer_life", e.target.value)}
+        >
+          <option value="">Prefer not to say</option>
+          {PRAYER_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      </Field>
+
+      <div className="section-divider">
+        <h2>Looking ahead</h2>
+      </div>
+
+      <Field label="Marriage">
+        <select
+          value={form.marriage_intention}
+          onChange={(e) => update("marriage_intention", e.target.value)}
+        >
+          <option value="">Prefer not to say</option>
+          {MARRIAGE_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      </Field>
+
+      <Field label="Children">
+        <select
+          value={form.children_plans}
+          onChange={(e) => update("children_plans", e.target.value)}
+        >
+          <option value="">Prefer not to say</option>
+          {CHILDREN_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
       </Field>
 
       {error && <div className="alert error">{error}</div>}

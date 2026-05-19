@@ -9,6 +9,7 @@ import {
   type BrowseFilters,
 } from "@/lib/supabase";
 import { LikeButton } from "@/app/components/LikeButton";
+import { PassButton } from "@/app/components/PassButton";
 import { Filters } from "./Filters";
 import { ActiveFilterChips } from "./ActiveFilterChips";
 
@@ -94,6 +95,10 @@ export default async function BrowsePage({
               </Link>
 
               <div className="discover-fab">
+                <PassButton
+                  passedId={p.user_id}
+                  displayName={p.display_name}
+                />
                 <LikeButton
                   likedId={p.user_id}
                   initialLiked={likedIds.has(p.user_id)}

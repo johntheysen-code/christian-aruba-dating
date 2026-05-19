@@ -47,6 +47,8 @@ export async function POST(req: Request) {
   }
   const lookingFor: "male" | "female" = gender === "male" ? "female" : "male";
 
+  const existing = await getProfile(session.user.id);
+
   const profile: Profile = {
     user_id: session.user.id,
     display_name: displayName,
@@ -57,7 +59,18 @@ export async function POST(req: Request) {
     church_name: optionalStr(body.church_name, 120),
     location: optionalStr(body.location, 80),
     bio: optionalStr(body.bio, 1000),
-    photo_url: optionalStr(body.photo_url, 500) ?? session.user.image ?? null,
+    photo_url:
+      existing?.photo_url ??
+      optionalStr(body.photo_url, 500) ??
+      session.user.image ??
+      null,
+    photos: existing?.photos ?? null,
+    favorite_verse: optionalStr(body.favorite_verse, 500),
+    statement_of_faith: optionalStr(body.statement_of_faith, 800),
+    church_attendance: optionalStr(body.church_attendance, 40),
+    prayer_life: optionalStr(body.prayer_life, 40),
+    marriage_intention: optionalStr(body.marriage_intention, 40),
+    children_plans: optionalStr(body.children_plans, 40),
   };
 
   const saved = await upsertProfile(profile);

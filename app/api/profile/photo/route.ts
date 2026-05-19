@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { getProfile, uploadAvatar, upsertProfile } from "@/lib/supabase";
+import { addProfilePhoto, uploadAvatar } from "@/lib/supabase";
 
 export const runtime = "nodejs";
 
@@ -22,10 +22,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: upload.error }, { status: 400 });
   }
 
-  const existing = await getProfile(session.user.id);
-  if (existing) {
-    await upsertProfile({ ...existing, photo_url: upload.url });
-  }
-
-  return NextResponse.json({ url: upload.url });
+  const photos = await addProfilePhoto(session.user.id, upload.url);
+  return NextResponse.json({ url: upload.url, photos });
 }
