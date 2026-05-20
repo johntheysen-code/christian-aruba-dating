@@ -1,6 +1,7 @@
 export type QuizCategory =
   | "faith_essentials"
   | "faith_practices"
+  | "christian_convictions"
   | "marriage_family"
   | "lifestyle"
   | "life_location";
@@ -16,6 +17,7 @@ export type QuizQuestion = {
 export const CATEGORY_LABELS: Record<QuizCategory, string> = {
   faith_essentials: "Faith essentials",
   faith_practices: "Faith practices",
+  christian_convictions: "Christian convictions",
   marriage_family: "Marriage & family",
   lifestyle: "Lifestyle",
   life_location: "Life & location",
@@ -104,6 +106,68 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
 
+  // Christian convictions — weight 3
+  {
+    id: "carnival",
+    category: "christian_convictions",
+    weight: 3,
+    prompt: "How do you feel about Christians participating in carnival?",
+    options: [
+      "I don't participate",
+      "I'm a spectator only",
+      "Participate selectively",
+      "Participate joyfully",
+    ],
+  },
+  {
+    id: "physical_intimacy",
+    category: "christian_convictions",
+    weight: 3,
+    prompt: "Where do you stand on physical intimacy before marriage?",
+    options: [
+      "Wait until marriage",
+      "Affection, but no sex",
+      "Open in a committed relationship",
+      "Prefer not to say",
+    ],
+  },
+  {
+    id: "cohabitation",
+    category: "christian_convictions",
+    weight: 3,
+    prompt: "Living together before marriage?",
+    options: [
+      "Wait for marriage",
+      "After engagement is fine",
+      "Open to it",
+      "Not concerned either way",
+    ],
+  },
+  {
+    id: "bars_nightclubs",
+    category: "christian_convictions",
+    weight: 3,
+    prompt: "How do you feel about Christians at bars or nightclubs?",
+    options: [
+      "I avoid them",
+      "Special occasions only",
+      "Fine in moderation",
+      "Regular part of social life",
+    ],
+  },
+  {
+    id: "media_choices",
+    category: "christian_convictions",
+    weight: 3,
+    prompt: "How careful are you about the media you watch and listen to?",
+    options: [
+      "Mostly Christian or family-friendly",
+      "Mindful, but not strict",
+      "Watch most things, skip the worst",
+      "Don't filter my media",
+    ],
+  },
+
   // Marriage & family — weight 2
   {
     id: "marriage_timing",
@@ -151,13 +215,6 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   },
 
   // Lifestyle — weight 1
-  {
-    id: "alcohol",
-    category: "lifestyle",
-    weight: 1,
-    prompt: "Where do you stand on alcohol?",
-    options: ["Don't drink", "Rarely", "Socially", "Regularly enjoy"],
-  },
   {
     id: "active",
     category: "lifestyle",

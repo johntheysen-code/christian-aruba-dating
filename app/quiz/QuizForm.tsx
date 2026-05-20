@@ -29,6 +29,7 @@ export function QuizForm({
     const out: Record<QuizCategory, typeof QUIZ_QUESTIONS> = {
       faith_essentials: [],
       faith_practices: [],
+      christian_convictions: [],
       marriage_family: [],
       lifestyle: [],
       life_location: [],
