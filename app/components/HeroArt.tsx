@@ -35,7 +35,7 @@ export function HeroArt() {
       </svg>
       <div
         className="hero-art-image"
-        style={{ backgroundImage: "url(/hero.jpg)" }}
+        style={{ backgroundImage: "url(/hero.png)" }}
       />
     </div>
   );
