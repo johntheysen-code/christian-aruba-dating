@@ -23,7 +23,11 @@ export default async function HomePage() {
         <section className="container hero">
           <div>
             <p className="hero-kicker">Not another Christian dating app.</p>
-            <h1>Equally yoked, by design.</h1>
+            <h1>
+              Equally Yoked,
+              <br />
+              by design.
+            </h1>
             <p className="hero-tagline">Traha pa nos dushi Aruba. 🌴</p>
             <p className="lede">
               Take the 22-question compatibility quiz and meet believers who
