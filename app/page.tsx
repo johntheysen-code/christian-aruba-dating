@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { getProfile } from "@/lib/supabase";
+import { getProfile, getQuizAnswers } from "@/lib/supabase";
 import { AuthButton } from "./components/AuthButton";
 import { ProfileCTA } from "./components/ProfileCTA";
 
@@ -8,30 +8,68 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
-  const profile = session?.user?.id ? await getProfile(session.user.id) : null;
+  const userId = session?.user?.id;
+  const [profile, quizAnswers] = userId
+    ? await Promise.all([getProfile(userId), getQuizAnswers(userId)])
+    : [null, []];
   const signedIn = Boolean(session?.user);
+  const hasProfile = Boolean(profile);
+  const hasQuiz = quizAnswers.length > 0;
 
   return (
     <>
       <main>
         <section className="container hero">
           <div>
-            <h1>Faith first. Love that follows.</h1>
+            <p className="hero-kicker">Not another Christian dating app.</p>
+            <h1>Equally yoked, by design.</h1>
             <p className="lede">
-              A Christ-centered community for singles on the One Happy Island.
-              Meet believers who share your values, your worship, and your walk.
+              Take the 22-question compatibility quiz and meet believers who
+              actually share your faith, your values, and your way of life.
+              Less swiping. More marriage.
             </p>
-            <p className="verse">
-              &ldquo;Above all else, guard your heart, for everything you do
-              flows from it.&rdquo; — Proverbs 4:23
-            </p>
+            <p className="verse">— 2 Corinthians 6:14</p>
             {signedIn ? (
-              <ProfileCTA hasProfile={Boolean(profile)} />
+              <ProfileCTA hasProfile={hasProfile} hasQuiz={hasQuiz} />
             ) : (
               <AuthButton variant="facebook" />
             )}
           </div>
           <div className="hero-art" aria-hidden="true" />
+        </section>
+
+        <section className="how-it-works">
+          <div className="container">
+            <h2>How it works</h2>
+            <p className="sub">From quiz to conversation in three steps.</p>
+            <ol className="steps-grid">
+              <li className="step">
+                <span className="step-number">1</span>
+                <h3>Take the quiz</h3>
+                <p>
+                  Answer 22 questions about your faith, convictions, and life
+                  goals — from Scripture and prayer to carnival, marriage, and
+                  children.
+                </p>
+              </li>
+              <li className="step">
+                <span className="step-number">2</span>
+                <h3>See your matches</h3>
+                <p>
+                  Every profile gets a compatibility score with a breakdown by
+                  category, so you spend time on the people who actually fit.
+                </p>
+              </li>
+              <li className="step">
+                <span className="step-number">3</span>
+                <h3>Start the conversation</h3>
+                <p>
+                  When you both like each other, you can message — privately
+                  and safely, only between matched members.
+                </p>
+              </li>
+            </ol>
+          </div>
         </section>
 
         <section className="features">
@@ -75,22 +113,26 @@ export default async function HomePage() {
             <>
               <h2>
                 {profile
-                  ? `Welcome back, ${profile.display_name}.`
+                  ? hasQuiz
+                    ? `Welcome back, ${profile.display_name}.`
+                    : `One step left, ${profile.display_name}.`
                   : "You're almost in."}
               </h2>
               <p>
-                {profile
-                  ? "Soon you'll be able to browse other members. For now, keep your profile fresh."
-                  : "Set up your profile so other believers can find you."}
+                {!hasProfile
+                  ? "Set up your profile so other believers can find you."
+                  : !hasQuiz
+                    ? "The compatibility quiz takes 5 minutes and unlocks accurate matching."
+                    : "Keep your profile fresh and check who's new this week."}
               </p>
-              <ProfileCTA hasProfile={Boolean(profile)} />
+              <ProfileCTA hasProfile={hasProfile} hasQuiz={hasQuiz} />
             </>
           ) : (
             <>
               <h2>Ready to meet someone who shares your faith?</h2>
               <p>
-                Sign in with Facebook to create your profile. It takes a
-                minute.
+                Sign in with Facebook to create your profile and take the
+                quiz. It takes a few minutes.
               </p>
               <AuthButton variant="facebook" />
             </>
