@@ -3,6 +3,7 @@ import { authOptions } from "@/lib/auth";
 import { getProfile, getQuizAnswers } from "@/lib/supabase";
 import { AuthButton } from "./components/AuthButton";
 import { ProfileCTA } from "./components/ProfileCTA";
+import { HeroArt } from "./components/HeroArt";
 
 export const dynamic = "force-dynamic";
 
@@ -35,7 +36,7 @@ export default async function HomePage() {
               <AuthButton variant="facebook" />
             )}
           </div>
-          <div className="hero-art" aria-hidden="true" />
+          <HeroArt />
         </section>
 
         <section className="how-it-works">
