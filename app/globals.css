@@ -163,7 +163,15 @@ a {
   line-height: 1.1;
   color: var(--ocean-dark);
   letter-spacing: -0.02em;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.hero-tagline {
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--coral-dark);
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.01em;
 }
 
 .hero p.lede {

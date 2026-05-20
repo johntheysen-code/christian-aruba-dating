@@ -24,6 +24,7 @@ export default async function HomePage() {
           <div>
             <p className="hero-kicker">Not another Christian dating app.</p>
             <h1>Equally yoked, by design.</h1>
+            <p className="hero-tagline">Traha pa nos dushi Aruba. 🌴</p>
             <p className="lede">
               Take the 22-question compatibility quiz and meet believers who
               actually share your faith, your values, and your way of life.
