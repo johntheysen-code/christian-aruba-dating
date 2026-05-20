@@ -167,6 +167,18 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       "Don't filter my media",
     ],
   },
+  {
+    id: "tattoos_piercings",
+    category: "christian_convictions",
+    weight: 2,
+    prompt: "How do you view tattoos and visible piercings?",
+    options: [
+      "I avoid them on biblical grounds",
+      "Not for me, but I don't judge others",
+      "Open to small or meaningful ones",
+      "Love them — they're self-expression",
+    ],
+  },
 
   // Marriage & family — weight 2
   {
