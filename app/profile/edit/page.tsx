@@ -34,25 +34,29 @@ export default async function ProfileEditPage() {
       </header>
 
       {existing && (
-        <Link href="/quiz" className="quiz-cta">
-          <div>
+        <div className="quiz-cta">
+          <div className="quiz-cta-body">
             <strong>Compatibility quiz</strong>
             <p className="muted small">
               {quizAnswers.length === 0
                 ? "Take the quiz to see how well you align with other members."
                 : `${quizAnswers.length} of ${QUIZ_QUESTIONS.length} questions answered`}
             </p>
-          </div>
-          <div className="quiz-cta-progress" aria-hidden="true">
-            <div className="quiz-cta-bar">
-              <div
-                className="quiz-cta-fill"
-                style={{ width: `${quizPct}%` }}
-              />
+            <div className="quiz-cta-progress" aria-hidden="true">
+              <div className="quiz-cta-bar">
+                <div
+                  className="quiz-cta-fill"
+                  style={{ width: `${quizPct}%` }}
+                />
+              </div>
+              <span>{quizPct}%</span>
             </div>
-            <span>{quizPct}%</span>
           </div>
-        </Link>
+          <Link href="/quiz" className="btn btn-facebook quiz-cta-btn">
+            {quizAnswers.length === 0 ? "Take the quiz" : "Continue quiz"}
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
       )}
 
       <ProfileForm

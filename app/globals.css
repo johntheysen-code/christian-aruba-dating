@@ -1188,32 +1188,48 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem 1.25rem;
-  background: white;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  background: linear-gradient(180deg, white, var(--sand));
   border-radius: 16px;
   margin-bottom: 1.5rem;
-  text-decoration: none;
-  color: var(--ink);
   border: 1.5px solid #e8e0c8;
-  transition: border-color 0.15s ease, transform 0.12s ease;
+  flex-wrap: wrap;
 }
 
-.quiz-cta:hover {
-  border-color: var(--ocean);
-  transform: translateY(-1px);
+.quiz-cta-body {
+  flex: 1;
+  min-width: 220px;
 }
 
 .quiz-cta strong {
   color: var(--ocean-dark);
   display: block;
   margin-bottom: 0.2rem;
+  font-size: 1.05rem;
+}
+
+.quiz-cta-btn {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quiz-cta-btn span {
+  font-size: 1.1rem;
+  transition: transform 0.15s ease;
+}
+
+.quiz-cta-btn:hover span {
+  transform: translateX(3px);
 }
 
 .quiz-cta-progress {
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  margin-top: 0.6rem;
 }
 
 .quiz-cta-bar {

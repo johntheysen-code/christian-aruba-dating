@@ -42,6 +42,18 @@ export function PhotosManager({
   }
 
   async function manage(action: "delete" | "primary", url: string) {
+    if (action === "delete") {
+      const idx = photos.indexOf(url);
+      const isPrimary = idx === 0;
+      const isOnlyPhoto = photos.length === 1;
+      let msg: string | null = null;
+      if (isOnlyPhoto) {
+        msg = "Delete your only photo? Other members won't see a photo on your profile.";
+      } else if (isPrimary) {
+        msg = `Delete your primary photo? Your next photo will become primary.`;
+      }
+      if (msg && !confirm(msg)) return;
+    }
     try {
       const res = await fetch("/api/profile/photo/manage", {
         method: "POST",
