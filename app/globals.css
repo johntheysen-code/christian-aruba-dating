@@ -53,16 +53,16 @@ a {
 }
 
 .brand-logo {
-  width: 48px;
-  height: 48px;
+  width: 68px;
+  height: 68px;
   object-fit: contain;
   flex-shrink: 0;
 }
 
 @media (max-width: 500px) {
   .brand-logo {
-    width: 38px;
-    height: 38px;
+    width: 48px;
+    height: 48px;
   }
   .brand {
     font-size: 1.2rem;
