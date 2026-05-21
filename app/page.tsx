@@ -149,8 +149,8 @@ export default async function HomePage() {
       <footer className="footer">
         <div className="container footer-row">
           <span>
-            &copy; {new Date().getFullYear()} Christian Aruba Dating · Made
-            with love in Aruba
+            &copy; {new Date().getFullYear()} Amor y Fe · Made with love in
+            Aruba
           </span>
           <nav className="footer-links">
             <a href="/privacy">Privacy</a>

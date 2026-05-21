@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Terms of Service — Christian Aruba Dating",
+  title: "Terms of Service — Amor y Fe",
 };
 
 export default function TermsPage() {
@@ -14,7 +14,7 @@ export default function TermsPage() {
       <p className="muted">Last updated: today</p>
 
       <p>
-        By signing into Christian Aruba Dating you agree to these terms. If
+        By signing into Amor y Fe you agree to these terms. If
         you do not agree, please do not use the service.
       </p>
 
@@ -48,7 +48,7 @@ export default function TermsPage() {
 
       <h2>Faith-based service</h2>
       <p>
-        Christian Aruba Dating is a Christ-centered service. We restrict
+        Amor y Fe is a Christ-centered service. We restrict
         matching to one-man-one-woman pairings consistent with a biblical
         view of marriage. Members of all backgrounds are welcome to sign up,
         but the matching model is fixed.

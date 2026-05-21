@@ -28,7 +28,9 @@ export async function TopNav() {
     <header className="topnav-wrap">
       <div className="container topnav">
         <Link href="/" className="brand">
-          Christian<span>Aruba</span>Dating
+          <span className="brand-amor">Amor</span>
+          <span className="brand-conj"> y </span>
+          <span className="brand-fe">Fe</span>
         </Link>
 
         {signedIn && hasProfile && (

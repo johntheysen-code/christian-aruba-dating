@@ -4,13 +4,13 @@ import { Providers } from "./providers";
 import { TopNav } from "./components/TopNav";
 
 export const metadata: Metadata = {
-  title: "Christian Aruba Dating — Faith, Love & Community",
+  title: "Amor y Fe — Christian dating in Aruba",
   description:
-    "A Christ-centered dating community for singles in Aruba. Meet faithful, like-minded believers on the island.",
+    "Amor y Fe — a Christ-centered dating community for singles in Aruba. Take the compatibility quiz and meet believers who share your faith and your way of life.",
   openGraph: {
-    title: "Christian Aruba Dating",
+    title: "Amor y Fe",
     description:
-      "A Christ-centered dating community for singles in Aruba.",
+      "Christian dating, designed for Aruba. Less swiping. More marriage.",
     type: "website",
   },
 };

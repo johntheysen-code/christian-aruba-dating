@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Privacy Policy — Christian Aruba Dating",
+  title: "Privacy Policy — Amor y Fe",
 };
 
 export default function PrivacyPage() {
@@ -14,10 +14,10 @@ export default function PrivacyPage() {
       <p className="muted">Last updated: today</p>
 
       <p>
-        Christian Aruba Dating (&ldquo;we&rdquo;, &ldquo;us&rdquo;,
-        &ldquo;our&rdquo;) operates the website at
-        christian-aruba-dating.vercel.app. This Privacy Policy explains what
-        information we collect, how we use it, and the choices you have.
+        Amor y Fe (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;)
+        operates the website at christian-aruba-dating.vercel.app. This
+        Privacy Policy explains what information we collect, how we use it,
+        and the choices you have.
       </p>
 
       <h2>Information we collect</h2>
