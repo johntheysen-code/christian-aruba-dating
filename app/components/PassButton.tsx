@@ -15,6 +15,10 @@ export function PassButton({
 
   async function handlePass() {
     if (pending) return;
+    const confirmed = confirm(
+      `Pass on ${displayName}? You won't see them on Discover anymore.`
+    );
+    if (!confirmed) return;
     setPending(true);
     try {
       const res = await fetch("/api/passes", {
