@@ -941,7 +941,7 @@ a {
 .discover-grid {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 280px));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 250px));
   gap: 1.25rem;
   justify-content: start;
 }
@@ -2133,7 +2133,7 @@ a.card-photo {
 .profile-grid {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 280px));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 250px));
   gap: 1.25rem;
   justify-content: start;
 }
