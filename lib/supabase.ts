@@ -382,12 +382,20 @@ export async function getQuizAnswersFor(
 export async function saveQuizAnswers(
   userId: string,
   answers: Array<{ question_id: string; answer_index: number }>
-): Promise<boolean> {
+): Promise<{ ok: boolean; error?: string }> {
   const client = getAdminClient();
-  if (!client) return false;
+  if (!client) return { ok: false, error: "Storage not configured" };
 
-  await client.from("quiz_answers").delete().eq("user_id", userId);
-  if (answers.length === 0) return true;
+  const { error: deleteError } = await client
+    .from("quiz_answers")
+    .delete()
+    .eq("user_id", userId);
+  if (deleteError) {
+    console.error("[supabase] saveQuizAnswers delete failed", deleteError);
+    return { ok: false, error: deleteError.message };
+  }
+
+  if (answers.length === 0) return { ok: true };
 
   const rows = answers.map((a) => ({
     user_id: userId,
@@ -397,9 +405,9 @@ export async function saveQuizAnswers(
   const { error } = await client.from("quiz_answers").insert(rows);
   if (error) {
     console.error("[supabase] saveQuizAnswers failed", error);
-    return false;
+    return { ok: false, error: error.message };
   }
-  return true;
+  return { ok: true };
 }
 
 export async function getLikedIds(likerId: string): Promise<Set<string>> {

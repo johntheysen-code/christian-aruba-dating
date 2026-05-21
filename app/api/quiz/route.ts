@@ -29,9 +29,12 @@ export async function POST(req: Request) {
     cleaned.push({ question_id: qid, answer_index: idx });
   }
 
-  const ok = await saveQuizAnswers(session.user.id, cleaned);
-  if (!ok) {
-    return NextResponse.json({ error: "save failed" }, { status: 500 });
+  const result = await saveQuizAnswers(session.user.id, cleaned);
+  if (!result.ok) {
+    return NextResponse.json(
+      { error: result.error ?? "save failed" },
+      { status: 500 }
+    );
   }
   return NextResponse.json({ ok: true, count: cleaned.length });
 }
