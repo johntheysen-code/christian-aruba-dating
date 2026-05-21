@@ -26,7 +26,8 @@ export default async function MatchesPage() {
 
       {matches.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-icon">💛</div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/owl-empty.png" alt="" className="empty-illustration" />
           <h2>No matches yet</h2>
           <p className="muted">
             Keep liking profiles on the <Link href="/browse">Discover</Link>{" "}

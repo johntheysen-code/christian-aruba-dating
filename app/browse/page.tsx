@@ -81,7 +81,8 @@ export default async function BrowsePage({
 
       {profiles.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-icon">🏝️</div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/owl-empty.png" alt="" className="empty-illustration" />
           <h2>No matches found</h2>
           <p className="muted">
             Try widening your filters, or check back soon as new members join.

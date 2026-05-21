@@ -24,7 +24,8 @@ export default async function MessagesPage() {
 
       {conversations.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-icon">💬</div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/owl-empty.png" alt="" className="empty-illustration" />
           <h2>No conversations yet</h2>
           <p className="muted">
             Match with someone on the{" "}

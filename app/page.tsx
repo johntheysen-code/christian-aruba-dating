@@ -147,15 +147,19 @@ export default async function HomePage() {
       </main>
 
       <footer className="footer">
-        <div className="container footer-row">
-          <span>
-            &copy; {new Date().getFullYear()} Amor y Fe · Made with love in
-            Aruba
-          </span>
-          <nav className="footer-links">
-            <a href="/privacy">Privacy</a>
-            <a href="/terms">Terms</a>
-          </nav>
+        <div className="container">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/owl-footer.png" alt="" className="footer-illustration" />
+          <div className="footer-row">
+            <span>
+              &copy; {new Date().getFullYear()} Amor y Fe · Made with love in
+              Aruba
+            </span>
+            <nav className="footer-links">
+              <a href="/privacy">Privacy</a>
+              <a href="/terms">Terms</a>
+            </nav>
+          </div>
         </div>
       </footer>
     </>

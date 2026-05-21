@@ -18,6 +18,8 @@ export default async function QuizPage() {
   return (
     <main className="container quiz-page">
       <header className="quiz-header">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/owl-quiz.png" alt="" className="quiz-hero-illustration" />
         <h1>Compatibility quiz</h1>
         <p className="muted">
           Answer honestly — your responses help us calculate how well you and

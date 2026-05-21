@@ -75,7 +75,9 @@ export function LikeButton({
       </button>
       {matchToast && (
         <div className="match-toast" role="status">
-          🎉 It&apos;s a match with {displayName}!
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/owl-match.png" alt="" className="match-toast-icon" />
+          <span>It&apos;s a match with {displayName}!</span>
         </div>
       )}
     </>
