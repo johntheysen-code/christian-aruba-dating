@@ -81,12 +81,21 @@ export default async function ProfileDetailPage({
       ? computeCompatibility(toAnswerMap(myAnswers), toAnswerMap(theirAnswers))
       : null;
 
-  const photos =
+  const allPhotos =
     profile.photos && profile.photos.length > 0
       ? profile.photos
       : profile.photo_url
         ? [profile.photo_url]
         : [];
+
+  const canSeeFullProfile = isSelf || matched;
+  const photos = canSeeFullProfile ? allPhotos : allPhotos.slice(0, 1);
+  const bioPreview =
+    profile.bio && !canSeeFullProfile
+      ? profile.bio.length > 160
+        ? profile.bio.slice(0, 160).trimEnd() + "…"
+        : profile.bio
+      : null;
 
   return (
     <main className="container detail-page">
@@ -208,7 +217,7 @@ export default async function ProfileDetailPage({
         </section>
       )}
 
-      {photos.length > 1 && (
+      {canSeeFullProfile && photos.length > 1 && (
         <section className="detail-section">
           <h2>Photos</h2>
           <div className="photo-gallery">
@@ -220,17 +229,29 @@ export default async function ProfileDetailPage({
         </section>
       )}
 
-      {profile.bio && (
+      {canSeeFullProfile && profile.bio && (
         <section className="detail-section">
           <h2>About</h2>
           <p className="detail-bio">{profile.bio}</p>
         </section>
       )}
 
-      {(profile.favorite_verse ||
-        profile.statement_of_faith ||
-        profile.church_attendance ||
-        profile.prayer_life) && (
+      {!canSeeFullProfile && bioPreview && (
+        <section className="detail-section">
+          <h2>About</h2>
+          <p className="detail-bio">{bioPreview}</p>
+          <p className="muted small reveal-hint">
+            🔒 Full bio, additional photos, and faith details unlock when you
+            both like each other.
+          </p>
+        </section>
+      )}
+
+      {canSeeFullProfile &&
+        (profile.favorite_verse ||
+          profile.statement_of_faith ||
+          profile.church_attendance ||
+          profile.prayer_life) && (
         <section className="detail-section">
           <h2>Faith</h2>
           <dl className="faith-grid">
@@ -267,7 +288,8 @@ export default async function ProfileDetailPage({
         </section>
       )}
 
-      {(profile.marriage_intention || profile.children_plans) && (
+      {canSeeFullProfile &&
+        (profile.marriage_intention || profile.children_plans) && (
         <section className="detail-section">
           <h2>Looking ahead</h2>
           <dl className="faith-grid">

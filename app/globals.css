@@ -1935,6 +1935,14 @@ a.card-photo {
   line-height: 1.55;
 }
 
+.reveal-hint {
+  margin-top: 0.85rem;
+  padding: 0.7rem 0.95rem;
+  background: var(--sand);
+  border-radius: 10px;
+  border-left: 3px solid var(--coral);
+}
+
 .empty-state {
   text-align: center;
   padding: 3rem 1rem;
