@@ -46,7 +46,11 @@ export default async function ThreadPage({
           <div>
             <h1>{partner.display_name}</h1>
             {partner.location && (
-              <p className="muted small">🏝️ {partner.location}</p>
+              <p className="muted small">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/divi.png" alt="" className="tag-divi" />
+                {partner.location}
+              </p>
             )}
           </div>
         </div>

@@ -58,7 +58,13 @@ export default async function MatchesPage() {
                 </Link>
                 <div className="card-meta">
                   {p.denomination && <span className="tag">⛪ {p.denomination}</span>}
-                  {p.location && <span className="tag">🏝️ {p.location}</span>}
+                  {p.location && (
+                    <span className="tag">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src="/divi.png" alt="" className="tag-divi" />
+                      {p.location}
+                    </span>
+                  )}
                 </div>
                 {p.church_name && (
                   <p className="card-church muted small">{p.church_name}</p>

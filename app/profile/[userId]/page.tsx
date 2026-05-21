@@ -135,7 +135,11 @@ export default async function ProfileDetailPage({
               <span className="tag">⛪ {profile.denomination}</span>
             )}
             {profile.location && (
-              <span className="tag">🏝️ {profile.location}</span>
+              <span className="tag">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/divi.png" alt="" className="tag-divi" />
+                {profile.location}
+              </span>
             )}
           </div>
           {profile.church_name && (

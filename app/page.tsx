@@ -28,7 +28,11 @@ export default async function HomePage() {
               <br />
               by design.
             </h1>
-            <p className="hero-tagline">Traha pa nos dushi Aruba. 🌴</p>
+            <p className="hero-tagline">
+              Traha pa nos dushi Aruba.{" "}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/divi.png" alt="" className="inline-divi" />
+            </p>
             <p className="lede">
               Take the 22-question compatibility quiz and meet believers who
               actually share your faith, your values, and your way of life.
