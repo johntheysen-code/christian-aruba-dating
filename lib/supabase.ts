@@ -181,16 +181,24 @@ async function getHiddenUserIds(userId: string): Promise<Set<string>> {
   return hidden;
 }
 
-export async function pass(passerId: string, passedId: string): Promise<void> {
+export async function pass(
+  passerId: string,
+  passedId: string
+): Promise<{ ok: boolean; error?: string }> {
   const client = getAdminClient();
-  if (!client || passerId === passedId) return;
+  if (!client) return { ok: false, error: "no client" };
+  if (passerId === passedId) return { ok: false, error: "cannot pass self" };
   const { error } = await client
     .from("passes")
     .upsert(
       { passer_id: passerId, passed_id: passedId },
       { onConflict: "passer_id,passed_id" }
     );
-  if (error) console.error("[supabase] pass failed", error);
+  if (error) {
+    console.error("[supabase] pass failed", error);
+    return { ok: false, error: error.message };
+  }
+  return { ok: true };
 }
 
 export async function isBlocked(

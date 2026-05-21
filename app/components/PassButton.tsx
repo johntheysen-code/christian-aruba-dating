@@ -17,12 +17,19 @@ export function PassButton({
     if (pending) return;
     setPending(true);
     try {
-      await fetch("/api/passes", {
+      const res = await fetch("/api/passes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ passed_id: passedId }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        alert(`Pass failed: ${data.error ?? res.status}`);
+        return;
+      }
       router.refresh();
+    } catch (e) {
+      alert(`Network error: ${e instanceof Error ? e.message : "unknown"}`);
     } finally {
       setPending(false);
     }

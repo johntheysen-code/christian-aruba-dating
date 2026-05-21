@@ -16,6 +16,9 @@ export async function POST(req: Request) {
   if (passedId === session.user.id) {
     return NextResponse.json({ error: "cannot pass self" }, { status: 400 });
   }
-  await pass(session.user.id, passedId);
+  const result = await pass(session.user.id, passedId);
+  if (!result.ok) {
+    return NextResponse.json({ error: result.error ?? "pass failed" }, { status: 500 });
+  }
   return NextResponse.json({ ok: true });
 }
