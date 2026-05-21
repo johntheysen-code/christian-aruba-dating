@@ -13,6 +13,7 @@ import {
 import { computeCompatibility, toAnswerMap } from "@/lib/quiz";
 import { LikeButton } from "@/app/components/LikeButton";
 import { PassButton } from "@/app/components/PassButton";
+import { DiscoverPhotos } from "@/app/components/DiscoverPhotos";
 import { Filters } from "./Filters";
 import { ActiveFilterChips } from "./ActiveFilterChips";
 
@@ -90,42 +91,23 @@ export default async function BrowsePage({
         </div>
       ) : (
         <ul className="discover-grid">
-          {profiles.map((p) => (
+          {profiles.map((p) => {
+            const photos =
+              p.photos && p.photos.length > 0
+                ? p.photos
+                : p.photo_url
+                  ? [p.photo_url]
+                  : [];
+            const score = compatibility.get(p.user_id) ?? null;
+            return (
             <li key={p.user_id} className="discover-card">
-              <Link
-                href={`/profile/${p.user_id}`}
-                className="discover-photo"
-                aria-label={`View ${p.display_name}'s profile`}
-              >
-                {p.photo_url ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={p.photo_url} alt="" />
-                ) : (
-                  <div className="photo-placeholder">
-                    {p.display_name.charAt(0).toUpperCase()}
-                  </div>
-                )}
-                <div className="discover-gradient" aria-hidden="true" />
-                <div className="discover-overlay">
-                  <h3>
-                    {p.display_name}
-                    {p.age && <span className="age">, {p.age}</span>}
-                  </h3>
-                  {p.location && (
-                    <p className="discover-loc">📍 {p.location}</p>
-                  )}
-                </div>
-                {compatibility.get(p.user_id) !== null &&
-                  compatibility.get(p.user_id) !== undefined && (
-                    <span
-                      className={`compat-badge ${compatBadgeClass(
-                        compatibility.get(p.user_id)!
-                      )}`}
-                    >
-                      {compatibility.get(p.user_id)}% match
-                    </span>
-                  )}
-              </Link>
+              <DiscoverPhotos
+                photos={photos}
+                displayName={p.display_name}
+                age={p.age}
+                location={p.location}
+                compatibilityScore={score}
+              />
 
               <div className="discover-fab">
                 <PassButton
@@ -140,7 +122,7 @@ export default async function BrowsePage({
                 />
               </div>
 
-              <div className="discover-body">
+              <Link href={`/profile/${p.user_id}`} className="discover-body">
                 <div className="card-meta">
                   {p.denomination && (
                     <span className="tag">⛪ {p.denomination}</span>
@@ -150,9 +132,11 @@ export default async function BrowsePage({
                   <p className="card-church muted small">{p.church_name}</p>
                 )}
                 {p.bio && <p className="card-bio">{truncate(p.bio, 140)}</p>}
-              </div>
+                <span className="view-profile-link">View profile →</span>
+              </Link>
             </li>
-          ))}
+            );
+          })}
         </ul>
       )}
     </main>
@@ -162,11 +146,4 @@ export default async function BrowsePage({
 function truncate(text: string, max: number): string {
   if (text.length <= max) return text;
   return text.slice(0, max).trimEnd() + "…";
-}
-
-function compatBadgeClass(score: number): string {
-  if (score >= 85) return "great";
-  if (score >= 70) return "good";
-  if (score >= 50) return "ok";
-  return "low";
 }

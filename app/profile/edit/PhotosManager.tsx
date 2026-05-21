@@ -67,8 +67,25 @@ export function PhotosManager({
     }
   }
 
+  const photoCount = photos.length;
+  const photosNeeded = Math.max(0, 3 - photoCount);
+
   return (
     <div className="photos-manager">
+      {photosNeeded > 0 && (
+        <div className="photo-nudge">
+          <span className="photo-nudge-icon">📸</span>
+          <div>
+            <strong>
+              Add {photosNeeded} more photo{photosNeeded === 1 ? "" : "s"} to look 2× more attractive
+            </strong>
+            <p className="muted small">
+              Profiles with 3+ photos get noticed more on Discover. Show
+              different sides of you: a smile, a hobby, a Sunday at church.
+            </p>
+          </div>
+        </div>
+      )}
       <div className="photos-grid">
         {photos.map((url, idx) => (
           <div key={url} className={`photo-tile ${idx === 0 ? "is-primary" : ""}`}>

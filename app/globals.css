@@ -964,6 +964,108 @@ a {
   display: block;
   aspect-ratio: 1 / 1;
   overflow: hidden;
+  background: #e8eaec;
+}
+
+.photo-tap {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 35%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+  appearance: none;
+  padding: 0;
+}
+
+.photo-tap-left {
+  left: 0;
+}
+
+.photo-tap-right {
+  right: 0;
+}
+
+.photo-tap:focus-visible {
+  outline: 2px solid white;
+  outline-offset: -4px;
+}
+
+.photo-dots {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.85rem;
+  right: 0.85rem;
+  display: flex;
+  gap: 0.25rem;
+  z-index: 3;
+}
+
+.photo-dot {
+  flex: 1;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.photo-dot:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.photo-dot.is-active {
+  background: white;
+}
+
+.discover-body {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.view-profile-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: var(--ocean);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.discover-body:hover .view-profile-link {
+  color: var(--ocean-dark);
+}
+
+.photo-nudge {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 0.9rem 1.1rem;
+  background: linear-gradient(135deg, #ffe8df, #fff4e8);
+  border: 1.5px solid var(--coral);
+  border-radius: 14px;
+  margin-bottom: 0.5rem;
+}
+
+.photo-nudge-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.photo-nudge strong {
+  color: var(--coral-dark);
+  display: block;
+  margin-bottom: 0.15rem;
+  font-size: 0.95rem;
+}
+
+.photo-nudge p {
+  margin: 0;
+  font-size: 0.85rem;
 }
 
 .discover-photo img {
