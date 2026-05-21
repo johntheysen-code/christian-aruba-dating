@@ -314,24 +314,58 @@ a {
 
 .step {
   background: white;
-  border-radius: 16px;
-  padding: 1.75rem 1.5rem 1.5rem;
+  border-radius: 20px;
+  padding: 1.5rem 1.5rem 1.5rem;
   position: relative;
   box-shadow: 0 6px 24px -14px rgba(7, 77, 101, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.step-1 {
+  background: linear-gradient(180deg, #fff8ec 0%, white 60%);
+}
+
+.step-2 {
+  background: linear-gradient(180deg, #ffe7df 0%, white 60%);
+}
+
+.step-3 {
+  background: linear-gradient(180deg, #e5eef2 0%, white 60%);
 }
 
 .step-number {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background: var(--ocean);
-  color: white;
+  background: white;
+  color: var(--ocean-dark);
+  border: 1.5px solid var(--ocean);
   font-weight: 700;
-  font-size: 1rem;
-  margin-bottom: 0.85rem;
+  font-size: 0.85rem;
+}
+
+.step-illustration {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.step-illustration-bg {
+  background-image: url("/owl-chat.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .step h3 {

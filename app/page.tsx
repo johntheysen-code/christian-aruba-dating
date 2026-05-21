@@ -46,11 +46,17 @@ export default async function HomePage() {
 
         <section className="how-it-works">
           <div className="container">
-            <h2>How it works</h2>
-            <p className="sub">From quiz to conversation in three steps.</p>
+            <h2>How Amor y Fe brings two believers together</h2>
+            <p className="sub">From single to soulmate, in three steps.</p>
             <ol className="steps-grid">
-              <li className="step">
+              <li className="step step-1">
                 <span className="step-number">1</span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/owl-quiz.png"
+                  alt=""
+                  className="step-illustration"
+                />
                 <h3>Take the quiz</h3>
                 <p>
                   Answer 22 questions about your faith, convictions, and life
@@ -58,16 +64,23 @@ export default async function HomePage() {
                   children.
                 </p>
               </li>
-              <li className="step">
+              <li className="step step-2">
                 <span className="step-number">2</span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/owl-match.png"
+                  alt=""
+                  className="step-illustration"
+                />
                 <h3>See your matches</h3>
                 <p>
                   Every profile gets a compatibility score with a breakdown by
                   category, so you spend time on the people who actually fit.
                 </p>
               </li>
-              <li className="step">
+              <li className="step step-3">
                 <span className="step-number">3</span>
+                <div className="step-illustration step-illustration-bg" />
                 <h3>Start the conversation</h3>
                 <p>
                   When you both like each other, you can message — privately
