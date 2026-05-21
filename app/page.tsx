@@ -115,12 +115,13 @@ export default async function HomePage() {
               <details className="faq-item">
                 <summary>How is Amor y Fe different from other dating apps?</summary>
                 <p>
-                  We&apos;re built for believers seeking marriage, not casual
-                  encounters. Matching is restricted to one man and one
-                  woman, in keeping with a biblical view of marriage. Our
-                  quiz goes deep on convictions most apps ignore — carnival,
-                  Sabbath, cohabitation, media — so you start with people who
-                  actually share your way of life.
+                  Amor y Fe is built for believers seeking marriage, not
+                  casual encounters. Matching is restricted to one man and
+                  one woman, in keeping with a biblical view of marriage.
+                  Our compatibility quiz goes far deeper than denomination —
+                  measuring the convictions and life direction that actually
+                  matter — so the matches you see are people who genuinely
+                  share your way of life.
                 </p>
               </details>
 
