@@ -96,38 +96,86 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <section className="features">
+        <section className="faq">
           <div className="container">
-            <h2>Built for our island, rooted in faith</h2>
-            <p className="sub">
-              Made for the Aruban church community — from Oranjestad to San
-              Nicolas.
-            </p>
-            <div className="feature-grid">
-              <div className="feature">
-                <div className="icon">⛪</div>
-                <h3>Shared faith</h3>
+            <h2>Common questions</h2>
+            <p className="sub">Everything to know before you sign in.</p>
+            <div className="faq-list">
+              <details className="faq-item">
+                <summary>How does matching work?</summary>
                 <p>
-                  Filter by denomination, church home, and where you are on
-                  your spiritual journey.
+                  We don&apos;t rely on swiping. Take our 22-question
+                  compatibility quiz — covering faith essentials, Christian
+                  convictions, marriage intentions, and lifestyle — and we
+                  calculate how aligned you are with every other member.
+                  Higher score, deeper potential connection.
                 </p>
-              </div>
-              <div className="feature">
-                <div className="icon">🏝️</div>
-                <h3>Local to Aruba</h3>
+              </details>
+
+              <details className="faq-item">
+                <summary>How is Amor y Fe different from other dating apps?</summary>
                 <p>
-                  Connect with believers right here on the island — no
-                  long-distance guessing games.
+                  We&apos;re built for believers seeking marriage, not casual
+                  encounters. Matching is restricted to one man and one
+                  woman, in keeping with a biblical view of marriage. Our
+                  quiz goes deep on convictions most apps ignore — carnival,
+                  Sabbath, cohabitation, media — so you start with people who
+                  actually share your way of life.
                 </p>
-              </div>
-              <div className="feature">
-                <div className="icon">🤝</div>
-                <h3>Safe &amp; verified</h3>
+              </details>
+
+              <details className="faq-item">
+                <summary>Is my information private?</summary>
                 <p>
-                  Sign in with Facebook so every member is a real person, not a
-                  bot or catfish.
+                  Yes. Your profile is only visible to other signed-in
+                  members of Amor y Fe. Messages stay private between matched
+                  users. We never sell or share your data with third parties.
+                  See our{" "}
+                  <a href="/privacy">Privacy Policy</a> for full details.
                 </p>
-              </div>
+              </details>
+
+              <details className="faq-item">
+                <summary>How do I know other members are real?</summary>
+                <p>
+                  Every member signs in with Facebook, which verifies they
+                  are a real person tied to a real account. No anonymous
+                  profiles, no catfish. If anyone feels off, you can block or
+                  report them in one tap.
+                </p>
+              </details>
+
+              <details className="faq-item">
+                <summary>Do I need to be from Aruba?</summary>
+                <p>
+                  Amor y Fe is designed for believers living on the One Happy
+                  Island. Matching, filters, and community references assume
+                  you&apos;re on Aruba. If you&apos;re visiting or planning to
+                  move here, you&apos;re welcome too.
+                </p>
+              </details>
+
+              <details className="faq-item">
+                <summary>Is there a cost?</summary>
+                <p>
+                  Free to use. We may add optional premium features later,
+                  but core matching, messaging, and profile features will
+                  always stay free for our community.
+                </p>
+              </details>
+
+              <details className="faq-item">
+                <summary>Can I delete my account?</summary>
+                <p>
+                  Yes. Email us at{" "}
+                  <a href="mailto:johntheysen@gmail.com">
+                    johntheysen@gmail.com
+                  </a>{" "}
+                  and we&apos;ll permanently delete your profile, photos,
+                  messages, and likes within 7 days. A self-serve delete
+                  button is coming soon.
+                </p>
+              </details>
             </div>
           </div>
         </section>
