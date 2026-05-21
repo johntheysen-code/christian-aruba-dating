@@ -132,9 +132,8 @@ export async function listMatchableProfiles(
   let query = client
     .from("profiles")
     .select("*")
-    .not("user_id", "in", `(${Array.from(excludedIds).map((id) => `"${id}"`).join(",") || `""`})`)
     .order("updated_at", { ascending: false })
-    .limit(50);
+    .limit(150);
 
   if (viewer.looking_for) {
     query = query.eq("gender", viewer.looking_for);
@@ -157,7 +156,11 @@ export async function listMatchableProfiles(
     console.error("[supabase] listMatchableProfiles failed", error);
     return [];
   }
-  return (data ?? []) as Profile[];
+
+  const filtered = (data ?? []).filter(
+    (p) => !excludedIds.has((p as Profile).user_id)
+  );
+  return filtered.slice(0, 50) as Profile[];
 }
 
 async function getHiddenUserIds(userId: string): Promise<Set<string>> {
