@@ -7,6 +7,7 @@ import {
   getQuizAnswers,
 } from "@/lib/supabase";
 import { AuthButton } from "./AuthButton";
+import { BrandLogo } from "./BrandLogo";
 import { NavLinks } from "./NavLinks";
 
 export async function TopNav() {
@@ -28,6 +29,7 @@ export async function TopNav() {
     <header className="topnav-wrap">
       <div className="container topnav">
         <Link href="/" className="brand">
+          <BrandLogo className="brand-logo" />
           <span className="brand-amor">Amor</span>
           <span className="brand-conj"> y </span>
           <span className="brand-fe">Fe</span>
