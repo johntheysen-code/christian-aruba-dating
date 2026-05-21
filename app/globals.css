@@ -252,6 +252,38 @@ a {
   border: 1.5px solid var(--ocean);
 }
 
+.btn-danger {
+  background: var(--coral-dark);
+  color: white;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #b14b35;
+}
+
+.btn-danger:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.danger-zone {
+  margin-top: 2.5rem;
+  padding: 1.5rem;
+  background: #fdf3f0;
+  border: 1.5px solid #f5cdc0;
+  border-radius: 16px;
+}
+
+.danger-zone h2 {
+  color: var(--coral-dark);
+  font-size: 1.15rem;
+  margin-bottom: 0.4rem;
+}
+
+.danger-zone p {
+  margin-bottom: 1rem;
+}
+
 .hero-art {
   aspect-ratio: 4 / 5;
   border-radius: 24px;

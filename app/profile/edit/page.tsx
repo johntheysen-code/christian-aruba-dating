@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { getProfile, getQuizAnswers } from "@/lib/supabase";
 import { QUIZ_QUESTIONS } from "@/lib/quiz";
 import { ProfileForm } from "./ProfileForm";
+import { DeleteAccountButton } from "@/app/components/DeleteAccountButton";
 
 export const dynamic = "force-dynamic";
 
@@ -64,6 +65,8 @@ export default async function ProfileEditPage() {
         fallbackName={session.user.name ?? ""}
         fallbackPhoto={session.user.image ?? ""}
       />
+
+      {existing && <DeleteAccountButton />}
     </main>
   );
 }

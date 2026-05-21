@@ -167,13 +167,11 @@ export default async function HomePage() {
               <details className="faq-item">
                 <summary>Can I delete my account?</summary>
                 <p>
-                  Yes. Email us at{" "}
-                  <a href="mailto:johntheysen@gmail.com">
-                    johntheysen@gmail.com
-                  </a>{" "}
-                  and we&apos;ll permanently delete your profile, photos,
-                  messages, and likes within 7 days. A self-serve delete
-                  button is coming soon.
+                  Yes — anytime. Go to your <a href="/profile/edit">Profile</a>{" "}
+                  page and scroll to the bottom: click <strong>Delete my
+                  account</strong>, confirm by typing DELETE, and your
+                  profile, photos, quiz answers, likes, matches, and messages
+                  are permanently removed. No emails, no waiting.
                 </p>
               </details>
             </div>

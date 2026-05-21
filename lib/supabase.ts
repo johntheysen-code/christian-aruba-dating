@@ -589,6 +589,29 @@ const BUCKET = "avatars";
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 const MAX_BYTES = 4 * 1024 * 1024;
 
+export async function deleteUserAccount(userId: string): Promise<boolean> {
+  const client = getAdminClient();
+  if (!client) return false;
+
+  const { data: files } = await client.storage.from(BUCKET).list(userId);
+  if (files && files.length > 0) {
+    const paths = files.map((f) => `${userId}/${f.name}`);
+    const { error: storageError } = await client.storage
+      .from(BUCKET)
+      .remove(paths);
+    if (storageError) {
+      console.error("[supabase] deleteUserAccount storage cleanup", storageError);
+    }
+  }
+
+  const { error } = await client.from("users").delete().eq("id", userId);
+  if (error) {
+    console.error("[supabase] deleteUserAccount user row delete", error);
+    return false;
+  }
+  return true;
+}
+
 export type UploadResult =
   | { ok: true; url: string }
   | { ok: false; error: string };
