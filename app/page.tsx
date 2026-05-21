@@ -80,7 +80,12 @@ export default async function HomePage() {
               </li>
               <li className="step step-3">
                 <span className="step-number">3</span>
-                <div className="step-illustration step-illustration-bg" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/owl-chat.png"
+                  alt=""
+                  className="step-illustration"
+                />
                 <h3>Start the conversation</h3>
                 <p>
                   When you both like each other, you can message — privately
