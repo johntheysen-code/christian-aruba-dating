@@ -379,6 +379,16 @@ a {
   font-size: 1.1rem;
 }
 
+.btn-icon {
+  flex-shrink: 0;
+  opacity: 0.92;
+}
+
+.btn-arrow {
+  margin-left: 0.15rem;
+  font-size: 1.1em;
+}
+
 .hero-cta-stack {
   display: flex;
   flex-direction: column;
