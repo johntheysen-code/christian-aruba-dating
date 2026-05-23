@@ -42,6 +42,12 @@ a {
   padding: 0 1.25rem;
 }
 
+@media (max-width: 640px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+}
+
 .nav {
   display: flex;
   align-items: center;
@@ -129,7 +135,7 @@ a {
 @media (max-width: 640px) {
   .topnav {
     gap: 0.5rem;
-    padding: 0.7rem 0.9rem;
+    padding: 0.7rem 1.25rem;
   }
   .nav-links {
     margin-left: 0;
@@ -483,6 +489,57 @@ a {
   color: var(--muted);
   font-size: 0.95rem;
   line-height: 1.5;
+}
+
+.step-interactive {
+  padding: 0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+}
+
+.step-interactive:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px -12px rgba(7, 77, 101, 0.35);
+}
+
+.step-link,
+.step-link-button {
+  display: block;
+  width: 100%;
+  padding: 1.5rem 1.5rem 1.5rem;
+  text-align: center;
+  color: inherit;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+.step-link-button {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.step-link h3,
+.step-link-button h3 {
+  margin-bottom: 0.45rem;
+}
+
+.step-cta {
+  display: inline-block;
+  margin-top: 0.85rem;
+  padding: 0.45rem 1rem;
+  background: var(--coral);
+  color: white;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.15s ease;
+}
+
+.step-interactive:hover .step-cta {
+  background: var(--coral-dark);
 }
 
 .features {

@@ -5,6 +5,7 @@ import { AuthButton } from "./components/AuthButton";
 import { ProfileCTA } from "./components/ProfileCTA";
 import { HeroArt } from "./components/HeroArt";
 import { TakeQuizButton } from "./components/TakeQuizButton";
+import { QuizStepLink } from "./components/QuizStepLink";
 
 export const dynamic = "force-dynamic";
 
@@ -60,20 +61,23 @@ export default async function HomePage() {
             <h2>How Amor y Fe brings two believers together</h2>
             <p className="sub">From single to soulmate, in three steps.</p>
             <ol className="steps-grid">
-              <li className="step step-1">
-                <span className="step-number">1</span>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/owl-quiz.png"
-                  alt=""
-                  className="step-illustration"
-                />
-                <h3>Take the quiz</h3>
-                <p>
-                  Answer 22 questions about your faith, convictions, and life
-                  goals — from Scripture and prayer to carnival, marriage, and
-                  children.
-                </p>
+              <li className="step step-1 step-interactive">
+                <QuizStepLink>
+                  <span className="step-number">1</span>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/owl-quiz.png"
+                    alt=""
+                    className="step-illustration"
+                  />
+                  <h3>Take the quiz</h3>
+                  <p>
+                    Answer 22 questions about your faith, convictions, and life
+                    goals — from Scripture and prayer to carnival, marriage,
+                    and children.
+                  </p>
+                  <span className="step-cta">Start now →</span>
+                </QuizStepLink>
               </li>
               <li className="step step-2">
                 <span className="step-number">2</span>
