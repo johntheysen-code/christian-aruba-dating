@@ -8,6 +8,7 @@ type Props = {
   age: number | null;
   location: string | null;
   compatibilityScore: number | null;
+  quizState: "scored" | "their_quiz_pending" | "your_quiz_pending";
 };
 
 export function DiscoverPhotos({
@@ -16,6 +17,7 @@ export function DiscoverPhotos({
   age,
   location,
   compatibilityScore,
+  quizState,
 }: Props) {
   const [index, setIndex] = useState(0);
   const safePhotos = photos.length > 0 ? photos : [""];
@@ -86,9 +88,25 @@ export function DiscoverPhotos({
         </h3>
         {location && <p className="discover-loc">📍 {location}</p>}
       </div>
-      {compatibilityScore !== null && (
-        <span className={`compat-badge ${compatBadgeClass(compatibilityScore)}`}>
+      {quizState === "scored" && compatibilityScore !== null ? (
+        <span
+          className={`compat-badge ${compatBadgeClass(compatibilityScore)}`}
+        >
           {compatibilityScore}% match
+        </span>
+      ) : quizState === "their_quiz_pending" ? (
+        <span
+          className="compat-badge pending"
+          title={`${displayName} hasn't completed the compatibility quiz yet. Score will appear once they do.`}
+        >
+          Quiz pending
+        </span>
+      ) : (
+        <span
+          className="compat-badge take-quiz"
+          title="Take the quiz to see your compatibility with members."
+        >
+          Take the quiz
         </span>
       )}
     </div>

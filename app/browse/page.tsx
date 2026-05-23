@@ -16,6 +16,7 @@ import { PassButton } from "@/app/components/PassButton";
 import { DiscoverPhotos } from "@/app/components/DiscoverPhotos";
 import { Filters } from "./Filters";
 import { ActiveFilterChips } from "./ActiveFilterChips";
+import { QuizBanner } from "./QuizBanner";
 
 export const dynamic = "force-dynamic";
 
@@ -51,21 +52,35 @@ export default async function BrowsePage({
   ]);
 
   const myAnswerMap = toAnswerMap(myAnswers);
+  const iTookQuiz = myAnswers.length > 0;
   const otherAnswersMap = await getQuizAnswersFor(
     profiles.map((p) => p.user_id)
   );
+  type QuizState = "scored" | "their_quiz_pending" | "your_quiz_pending";
   const compatibility = new Map<string, number | null>();
+  const quizStates = new Map<string, QuizState>();
   for (const p of profiles) {
     const theirRows = otherAnswersMap.get(p.user_id) ?? [];
-    if (theirRows.length === 0 || myAnswers.length === 0) {
+    const theyTookQuiz = theirRows.length > 0;
+
+    if (!iTookQuiz) {
       compatibility.set(p.user_id, null);
+      quizStates.set(p.user_id, "your_quiz_pending");
+      continue;
+    }
+    if (!theyTookQuiz) {
+      compatibility.set(p.user_id, null);
+      quizStates.set(p.user_id, "their_quiz_pending");
       continue;
     }
     const result = computeCompatibility(myAnswerMap, toAnswerMap(theirRows));
-    compatibility.set(
-      p.user_id,
-      result.answeredBoth > 0 ? result.overall : null
-    );
+    if (result.answeredBoth === 0) {
+      compatibility.set(p.user_id, null);
+      quizStates.set(p.user_id, "their_quiz_pending");
+    } else {
+      compatibility.set(p.user_id, result.overall);
+      quizStates.set(p.user_id, "scored");
+    }
   }
 
   return (
@@ -77,6 +92,7 @@ export default async function BrowsePage({
         </p>
       </header>
 
+      <QuizBanner hasQuiz={iTookQuiz} />
       <Filters resultCount={profiles.length} />
       <ActiveFilterChips filters={filters} />
 
@@ -99,6 +115,7 @@ export default async function BrowsePage({
                   ? [p.photo_url]
                   : [];
             const score = compatibility.get(p.user_id) ?? null;
+            const quizState = quizStates.get(p.user_id) ?? "their_quiz_pending";
             return (
             <li key={p.user_id} className="discover-card">
               <DiscoverPhotos
@@ -107,6 +124,7 @@ export default async function BrowsePage({
                 age={p.age}
                 location={p.location}
                 compatibilityScore={score}
+                quizState={quizState}
               />
 
               <div className="discover-fab">

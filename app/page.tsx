@@ -4,6 +4,7 @@ import { getProfile, getQuizAnswers } from "@/lib/supabase";
 import { AuthButton } from "./components/AuthButton";
 import { ProfileCTA } from "./components/ProfileCTA";
 import { HeroArt } from "./components/HeroArt";
+import { TakeQuizButton } from "./components/TakeQuizButton";
 
 export const dynamic = "force-dynamic";
 
@@ -42,7 +43,13 @@ export default async function HomePage() {
             {signedIn ? (
               <ProfileCTA hasProfile={hasProfile} hasQuiz={hasQuiz} />
             ) : (
-              <AuthButton variant="facebook" />
+              <div className="hero-cta-stack">
+                <TakeQuizButton large />
+                <p className="hero-cta-hint muted small">
+                  Quick Facebook sign-in keeps every member real and verified.
+                </p>
+                <AuthButton variant="facebook" />
+              </div>
             )}
           </div>
           <HeroArt />
