@@ -35,6 +35,13 @@ export default async function HomePage() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/divi.png" alt="" className="inline-divi" />
             </p>
+            <p className="hero-empathy">
+              You&apos;ve tried the apps. None of them asked what actually
+              matters — not to you, not to a believer serious about marriage.
+              <br />
+              Built by an Aruban Christian who lived that exact frustration
+              for 14 years.
+            </p>
             <p className="lede">
               Take the 22-question compatibility quiz and meet believers who
               actually share your faith, your values, and your way of life.
@@ -47,7 +54,8 @@ export default async function HomePage() {
               <div className="hero-cta-stack">
                 <TakeQuizButton large />
                 <p className="hero-cta-hint muted small">
-                  Quick Facebook sign-in keeps every member real and verified.
+                  Start with the quiz — signing in takes 30 seconds when
+                  you&apos;re ready.
                 </p>
                 <AuthButton variant="facebook" />
               </div>
@@ -215,10 +223,14 @@ export default async function HomePage() {
             </>
           ) : (
             <>
-              <h2>Ready to meet someone who shares your faith?</h2>
+              <h2>
+                Imagine walking into church on Sunday with someone who prays
+                like you, believes like you, and chose you on purpose.
+              </h2>
               <p>
-                Sign in with Facebook to create your profile and take the
-                quiz. It takes a few minutes.
+                That&apos;s what equally yoked looks like — at 25, at 45, at
+                65. It starts with one quiz. It ends with a marriage that
+                honors God.
               </p>
               <AuthButton variant="facebook" />
             </>

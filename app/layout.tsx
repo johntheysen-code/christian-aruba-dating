@@ -6,7 +6,7 @@ import { TopNav } from "./components/TopNav";
 export const metadata: Metadata = {
   title: "Amor y Fe — Christian dating in Aruba",
   description:
-    "Amor y Fe — a Christ-centered dating community for singles in Aruba. Take the compatibility quiz and meet believers who share your faith and your way of life.",
+    "Amor y Fe — Christian dating built for Aruba. Marriage-first, not swipe-first. Take the 22-question compatibility quiz and meet believers who share your faith, your convictions, and your way of life. Free.",
   openGraph: {
     title: "Amor y Fe",
     description:
