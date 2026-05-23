@@ -1,17 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const MAX_PHOTOS = 6;
+const MIN_PHOTOS = 2;
 
 export function PhotosManager({
   initialPhotos,
+  onPhotosChange,
 }: {
   initialPhotos: string[];
+  onPhotosChange?: (photos: string[]) => void;
 }) {
   const [photos, setPhotos] = useState<string[]>(initialPhotos);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    onPhotosChange?.(photos);
+  }, [photos, onPhotosChange]);
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -45,10 +52,10 @@ export function PhotosManager({
     if (action === "delete") {
       const idx = photos.indexOf(url);
       const isPrimary = idx === 0;
-      const isOnlyPhoto = photos.length === 1;
+      const willDropBelowMin = photos.length - 1 < MIN_PHOTOS;
       let msg: string | null = null;
-      if (isOnlyPhoto) {
-        msg = "Delete your only photo? Other members won't see a photo on your profile.";
+      if (willDropBelowMin) {
+        msg = `Members need at least ${MIN_PHOTOS} photos to be matchable. Deleting this will block you from saving until you upload another. Continue?`;
       } else if (isPrimary) {
         msg = `Delete your primary photo? Your next photo will become primary.`;
       }
@@ -68,16 +75,40 @@ export function PhotosManager({
   }
 
   const photoCount = photos.length;
+  const belowMin = photoCount < MIN_PHOTOS;
   const photosNeeded = Math.max(0, 3 - photoCount);
 
   return (
     <div className="photos-manager">
-      {photosNeeded > 0 && (
+      <p className="photos-helper muted small">
+        Add at least 2 photos — it gives believers a fair impression of who
+        you are.
+      </p>
+
+      {belowMin && (
+        <div className="photo-nudge photo-nudge-required">
+          <span className="photo-nudge-icon">⚠️</span>
+          <div>
+            <strong>
+              {MIN_PHOTOS - photoCount} more photo
+              {MIN_PHOTOS - photoCount === 1 ? "" : "s"} required to save your
+              profile.
+            </strong>
+            <p className="muted small">
+              Profiles with 2+ photos get significantly more matches and give
+              members a fair impression of you.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {!belowMin && photosNeeded > 0 && (
         <div className="photo-nudge">
           <span className="photo-nudge-icon">📸</span>
           <div>
             <strong>
-              Add {photosNeeded} more photo{photosNeeded === 1 ? "" : "s"} to look 2× more attractive
+              Add {photosNeeded} more photo
+              {photosNeeded === 1 ? "" : "s"} to look 2× more attractive
             </strong>
             <p className="muted small">
               Profiles with 3+ photos get noticed more on Discover. Show
@@ -86,6 +117,7 @@ export function PhotosManager({
           </div>
         </div>
       )}
+
       <div className="photos-grid">
         {photos.map((url, idx) => (
           <div key={url} className={`photo-tile ${idx === 0 ? "is-primary" : ""}`}>

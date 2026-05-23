@@ -1276,6 +1276,10 @@ a {
   color: var(--ocean-dark);
 }
 
+.photos-helper {
+  margin-bottom: 0.5rem;
+}
+
 .photo-nudge {
   display: flex;
   align-items: flex-start;
@@ -1285,6 +1289,15 @@ a {
   border: 1.5px solid var(--coral);
   border-radius: 14px;
   margin-bottom: 0.5rem;
+}
+
+.photo-nudge-required {
+  background: linear-gradient(135deg, #fde0d6, #ffd9c8);
+  border-color: var(--coral-dark);
+}
+
+.photo-nudge-required strong {
+  color: var(--coral-dark);
 }
 
 .photo-nudge-icon {

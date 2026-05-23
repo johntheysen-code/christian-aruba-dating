@@ -65,6 +65,10 @@ export function ProfileForm({ initial, fallbackName, fallbackPhoto }: Props) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const initialPhotos =
+    initial?.photos ??
+    (initial?.photo_url ? [initial.photo_url] : fallbackPhoto ? [fallbackPhoto] : []);
+  const [photoCount, setPhotoCount] = useState<number>(initialPhotos.length);
 
   const [form, setForm] = useState({
     display_name: initial?.display_name ?? fallbackName.split(" ")[0] ?? "",
@@ -90,6 +94,12 @@ export function ProfileForm({ initial, fallbackName, fallbackPhoto }: Props) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (photoCount < 2) {
+      setError(
+        "Please add at least one more photo. Members with 2 photos get significantly more matches — and it gives people a fairer impression of you."
+      );
+      return;
+    }
     setSaving(true);
     setError(null);
     setSuccess(false);
@@ -117,7 +127,8 @@ export function ProfileForm({ initial, fallbackName, fallbackPhoto }: Props) {
   return (
     <form className="profile-form" onSubmit={handleSubmit}>
       <PhotosManager
-        initialPhotos={initial?.photos ?? (initial?.photo_url ? [initial.photo_url] : fallbackPhoto ? [fallbackPhoto] : [])}
+        initialPhotos={initialPhotos}
+        onPhotosChange={(photos) => setPhotoCount(photos.length)}
       />
 
       <Field label="Display name" required>

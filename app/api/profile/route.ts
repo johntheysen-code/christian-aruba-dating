@@ -49,6 +49,17 @@ export async function POST(req: Request) {
 
   const existing = await getProfile(session.user.id);
 
+  const existingPhotoCount = existing?.photos?.length ?? (existing?.photo_url ? 1 : 0);
+  if (existingPhotoCount < 2) {
+    return NextResponse.json(
+      {
+        error:
+          "Please add at least 2 photos before saving your profile. Members with 2+ photos get significantly more matches.",
+      },
+      { status: 400 }
+    );
+  }
+
   const profile: Profile = {
     user_id: session.user.id,
     display_name: displayName,
