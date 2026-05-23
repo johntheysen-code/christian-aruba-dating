@@ -7,6 +7,7 @@ This folder is your **marketing war room.** Everything you need to talk about th
 | File | What it is | When to use |
 |---|---|---|
 | [`brand-brief.md`](./brand-brief.md) | Name, mission, voice, palette, do's & don'ts | Reference for any copy or design decision |
+| [`brandscript.md`](./brandscript.md) | StoryBrand 7-part framework filled in for Amor y Fe | The messaging spine. Use it when writing anything. |
 | [`positioning.md`](./positioning.md) | How we differ from competitors | When pitching, writing about the product, handling objections |
 | [`pastor-pitch.md`](./pastor-pitch.md) | One-page leave-behind for pastor meetings | Print it. Bring 10 copies. Use it. |
 | [`launch-playbook.md`](./launch-playbook.md) | 90-day rollout plan with weekly actions | Your weekly checklist. Open every Sunday. |

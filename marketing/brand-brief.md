@@ -33,14 +33,17 @@ Secondary line (Papiamento):
 
 ## Target audience
 
-**Primary:** Christian singles ages 25–45 living on Aruba who are actively seeking marriage.
+**Primary:** Christian single adults living on Aruba who are actively seeking marriage — at **any life stage**, from their 20s through their 70s and beyond.
 
 **Sub-segments we serve well:**
 
 - Young professionals just back from studies abroad
 - Singles in their 30s who feel local dating options are exhausted
-- Divorced or widowed Christians looking for a second chance with shared faith
+- Divorced or widowed Christians of any age looking for a second chance with shared faith
+- **Believers 50+ entering a new chapter** — never written out of the marriage story
 - Newcomers to the island who need to find community
+
+Faith and seriousness about marriage are the qualifiers. Age is not.
 
 **We are NOT for:**
 
