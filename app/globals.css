@@ -113,7 +113,6 @@ a {
   backdrop-filter: saturate(180%) blur(8px);
   background: rgba(255, 255, 255, 0.92);
   max-width: 100vw;
-  overflow-x: hidden;
 }
 
 .topnav {
