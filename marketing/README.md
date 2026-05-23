@@ -13,6 +13,7 @@ This folder is your **marketing war room.** Everything you need to talk about th
 | [`launch-playbook.md`](./launch-playbook.md) | 90-day rollout plan with weekly actions | Your weekly checklist. Open every Sunday. |
 | [`copy-samples.md`](./copy-samples.md) | Proven copy for homepage, social, ads, emails | Whenever you need to write anything |
 | [`project-prompts.md`](./project-prompts.md) | 12 sequential prompts to run in your Claude Project | Your 90-day operating system — one per week |
+| [`resources.md`](./resources.md) | Every link you need (live site, code, DB, FB app, press, learning) | Bookmark folder in document form |
 
 ## How to use this folder
 
