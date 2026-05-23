@@ -14,6 +14,7 @@ This folder is your **marketing war room.** Everything you need to talk about th
 | [`copy-samples.md`](./copy-samples.md) | Proven copy for homepage, social, ads, emails | Whenever you need to write anything |
 | [`project-prompts.md`](./project-prompts.md) | 12 sequential prompts to run in your Claude Project | Your 90-day operating system — one per week |
 | [`resources.md`](./resources.md) | Every link you need (live site, code, DB, FB app, press, learning) | Bookmark folder in document form |
+| [`app-overview.md`](./app-overview.md) | Full walk-through of every screen, flow, and design choice | Share with designers, pastors, marketers for review |
 
 ## How to use this folder
 
