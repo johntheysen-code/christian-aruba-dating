@@ -142,7 +142,7 @@ export function QuizForm({
         </span>
         <button
           type="submit"
-          className="btn btn-facebook"
+          className="btn btn-coral"
           disabled={saving || answeredCount === 0}
         >
           {saving ? "Saving…" : "Save answers"}

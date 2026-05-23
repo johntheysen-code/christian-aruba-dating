@@ -55,7 +55,7 @@ export function MessageForm({
       />
       <button
         type="submit"
-        className="btn btn-facebook"
+        className="btn btn-coral"
         disabled={sending || text.trim().length === 0}
       >
         {sending ? "Sending…" : "Send"}

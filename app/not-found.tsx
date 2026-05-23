@@ -14,7 +14,7 @@ export default function NotFound() {
         Even our shoco can&apos;t find what you&apos;re looking for. Let&apos;s
         get you home.
       </p>
-      <Link href="/" className="btn btn-facebook">
+      <Link href="/" className="btn btn-coral">
         Take me home
       </Link>
     </main>

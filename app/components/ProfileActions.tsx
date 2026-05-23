@@ -158,7 +158,7 @@ export function ProfileActions({
               </button>
               <button
                 type="submit"
-                className="btn btn-facebook"
+                className="btn btn-coral"
                 disabled={pending}
               >
                 {pending ? "Submitting…" : "Submit report"}

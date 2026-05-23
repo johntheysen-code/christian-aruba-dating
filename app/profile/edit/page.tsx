@@ -53,7 +53,7 @@ export default async function ProfileEditPage() {
               <span>{quizPct}%</span>
             </div>
           </div>
-          <Link href="/quiz" className="btn btn-facebook quiz-cta-btn">
+          <Link href="/quiz" className="btn btn-coral quiz-cta-btn">
             {quizAnswers.length === 0 ? "Take the quiz" : "Continue quiz"}
             <span aria-hidden="true">→</span>
           </Link>

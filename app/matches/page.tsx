@@ -76,7 +76,7 @@ export default async function MatchesPage() {
                 <div className="card-actions">
                   <Link
                     href={`/messages/${p.user_id}`}
-                    className="btn btn-facebook btn-sm"
+                    className="btn btn-coral btn-sm"
                   >
                     Send message
                   </Link>

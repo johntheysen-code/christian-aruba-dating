@@ -139,7 +139,7 @@ export function Filters({ resultCount }: { resultCount: number }) {
             <button type="button" className="btn btn-ghost" onClick={reset}>
               Reset
             </button>
-            <button type="submit" className="btn btn-facebook">
+            <button type="submit" className="btn btn-coral">
               Apply filters
             </button>
           </div>

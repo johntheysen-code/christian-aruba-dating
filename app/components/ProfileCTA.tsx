@@ -9,20 +9,20 @@ export function ProfileCTA({
 }) {
   if (!hasProfile) {
     return (
-      <Link href="/profile/edit" className="btn btn-facebook">
+      <Link href="/profile/edit" className="btn btn-coral">
         Complete your profile →
       </Link>
     );
   }
   if (!hasQuiz) {
     return (
-      <Link href="/quiz" className="btn btn-facebook">
+      <Link href="/quiz" className="btn btn-coral">
         Take the compatibility quiz →
       </Link>
     );
   }
   return (
-    <Link href="/browse" className="btn btn-facebook">
+    <Link href="/browse" className="btn btn-coral">
       Browse members →
     </Link>
   );

@@ -292,7 +292,7 @@ export function ProfileForm({ initial, fallbackName, fallbackPhoto }: Props) {
       {success && <div className="alert success">Saved ✓</div>}
 
       <div className="actions">
-        <button type="submit" className="btn btn-facebook" disabled={saving}>
+        <button type="submit" className="btn btn-coral" disabled={saving}>
           {saving ? "Saving…" : initial ? "Save changes" : "Create profile"}
         </button>
       </div>

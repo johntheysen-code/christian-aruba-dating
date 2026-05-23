@@ -153,7 +153,7 @@ export default async function ProfileDetailPage({
 
           <div className="detail-actions">
             {isSelf ? (
-              <Link href="/profile/edit" className="btn btn-facebook">
+              <Link href="/profile/edit" className="btn btn-coral">
                 Edit profile
               </Link>
             ) : (
@@ -166,7 +166,7 @@ export default async function ProfileDetailPage({
                 {matched && (
                   <Link
                     href={`/messages/${profile.user_id}`}
-                    className="btn btn-facebook"
+                    className="btn btn-coral"
                   >
                     Send message
                   </Link>
@@ -219,7 +219,7 @@ export default async function ProfileDetailPage({
               : `${profile.display_name} hasn't taken the compatibility quiz yet.`}
           </p>
           {myAnswers.length === 0 && (
-            <Link href="/quiz" className="btn btn-facebook">
+            <Link href="/quiz" className="btn btn-coral">
               Take the quiz
             </Link>
           )}
