@@ -59,6 +59,11 @@ export default async function ProfileDetailPage({
   const me = await getProfile(session.user.id);
   if (!me) redirect("/profile/edit");
 
+  const myQuizCheck = await getQuizAnswers(session.user.id);
+  if (myQuizCheck.length === 0 && params.userId !== session.user.id) {
+    redirect("/quiz");
+  }
+
   const profile = await getProfile(params.userId);
   if (!profile) notFound();
 

@@ -36,14 +36,7 @@ export async function TopNav() {
         </Link>
 
         {signedIn && hasProfile && (
-          <>
-            <NavLinks unreadCount={unread} />
-            {!hasQuiz && (
-              <Link href="/quiz" className="nav-quiz-cta">
-                ✨ Find your match
-              </Link>
-            )}
-          </>
+          <NavLinks unreadCount={unread} hasQuiz={hasQuiz} />
         )}
 
         <AuthButton variant="ghost" />

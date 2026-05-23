@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { getProfile, listMatches } from "@/lib/supabase";
+import { getProfile, getQuizAnswers, listMatches } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
@@ -12,6 +12,9 @@ export default async function MatchesPage() {
 
   const me = await getProfile(session.user.id);
   if (!me) redirect("/profile/edit");
+
+  const quizCheck = await getQuizAnswers(session.user.id);
+  if (quizCheck.length === 0) redirect("/quiz");
 
   const matches = await listMatches(session.user.id);
 

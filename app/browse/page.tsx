@@ -38,6 +38,9 @@ export default async function BrowsePage({
   const me = await getProfile(session.user.id);
   if (!me) redirect("/profile/edit");
 
+  const quizCheck = await getQuizAnswers(session.user.id);
+  if (quizCheck.length === 0) redirect("/quiz");
+
   const filters: BrowseFilters = {
     ageMin: parseAge(typeof searchParams.age_min === "string" ? searchParams.age_min : undefined),
     ageMax: parseAge(typeof searchParams.age_max === "string" ? searchParams.age_max : undefined),

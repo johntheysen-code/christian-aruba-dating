@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import {
   getProfile,
+  getQuizAnswers,
   isMatched,
   listThread,
   markThreadRead,
@@ -22,6 +23,9 @@ export default async function ThreadPage({
 
   const me = await getProfile(session.user.id);
   if (!me) redirect("/profile/edit");
+
+  const quizCheck = await getQuizAnswers(session.user.id);
+  if (quizCheck.length === 0) redirect("/quiz");
 
   const partner = await getProfile(params.userId);
   if (!partner) redirect("/messages");
