@@ -54,10 +54,8 @@ export default async function HomePage() {
               <div className="hero-cta-stack">
                 <TakeQuizButton large />
                 <p className="hero-cta-hint muted small">
-                  Start with the quiz — signing in takes 30 seconds when
-                  you&apos;re ready.
+                  Requires a free Facebook login — takes 30 seconds.
                 </p>
-                <AuthButton variant="facebook" />
               </div>
             )}
           </div>
