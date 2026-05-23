@@ -39,7 +39,7 @@ export async function TopNav() {
           <NavLinks unreadCount={unread} hasQuiz={hasQuiz} />
         )}
 
-        <AuthButton variant="ghost" />
+        {signedIn && <AuthButton variant="ghost" />}
       </div>
     </header>
   );
