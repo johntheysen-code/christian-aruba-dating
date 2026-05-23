@@ -119,6 +119,7 @@ export default async function BrowsePage({
             return (
             <li key={p.user_id} className="discover-card">
               <DiscoverPhotos
+                userId={p.user_id}
                 photos={photos}
                 displayName={p.display_name}
                 age={p.age}
@@ -144,7 +145,7 @@ export default async function BrowsePage({
                   <p className="card-church muted small">{p.church_name}</p>
                 )}
                 {p.bio && <p className="card-bio">{truncate(p.bio, 140)}</p>}
-                <span className="view-profile-link">Read profile to like →</span>
+                <span className="view-profile-link">View profile →</span>
               </Link>
             </li>
             );

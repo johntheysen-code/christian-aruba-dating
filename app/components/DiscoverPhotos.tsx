@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 type Props = {
+  userId: string;
   photos: string[];
   displayName: string;
   age: number | null;
@@ -12,6 +14,7 @@ type Props = {
 };
 
 export function DiscoverPhotos({
+  userId,
   photos,
   displayName,
   age,
@@ -42,6 +45,8 @@ export function DiscoverPhotos({
     setIndex(idx);
   }
 
+  const profileHref = `/profile/${userId}`;
+
   return (
     <div className="discover-photo">
       {safePhotos[index] ? (
@@ -53,13 +58,18 @@ export function DiscoverPhotos({
         </div>
       )}
 
-      {hasMultiple && (
+      {hasMultiple ? (
         <>
           <button
             type="button"
             className="photo-tap photo-tap-left"
             onClick={prev}
             aria-label="Previous photo"
+          />
+          <Link
+            href={profileHref}
+            className="photo-tap photo-tap-center"
+            aria-label={`Open ${displayName}'s profile`}
           />
           <button
             type="button"
@@ -79,6 +89,12 @@ export function DiscoverPhotos({
             ))}
           </div>
         </>
+      ) : (
+        <Link
+          href={profileHref}
+          className="photo-tap photo-tap-full"
+          aria-label={`Open ${displayName}'s profile`}
+        />
       )}
 
       <div className="discover-gradient" aria-hidden="true" />
