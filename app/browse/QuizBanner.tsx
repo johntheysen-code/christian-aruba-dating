@@ -19,7 +19,7 @@ export function QuizBanner({ hasQuiz }: { hasQuiz: boolean }) {
     } catch {}
   }
 
-  if (dismissed) return null;
+  if (dismissed || hasQuiz) return null;
 
   return (
     <div className="quiz-banner" role="status">
