@@ -191,13 +191,13 @@ a {
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
   align-items: center;
-  padding: 4rem 0 5rem;
+  padding-block: 4rem 5rem;
 }
 
 @media (max-width: 800px) {
   .hero {
     grid-template-columns: 1fr;
-    padding: 2rem 0 3rem;
+    padding-block: 2rem 3rem;
   }
 }
 
@@ -684,7 +684,7 @@ a {
 
 .cta {
   text-align: center;
-  padding: 4rem 0;
+  padding-block: 4rem;
 }
 
 .cta h2 {
@@ -845,7 +845,7 @@ a {
 }
 
 .profile-page {
-  padding: 2rem 0 4rem;
+  padding-block: 2rem 4rem;
   max-width: 640px;
 }
 
@@ -1011,7 +1011,7 @@ a {
 }
 
 .browse-page {
-  padding: 2rem 0 4rem;
+  padding-block: 2rem 4rem;
 }
 
 .browse-header {
@@ -1612,7 +1612,7 @@ a {
 }
 
 .legal-page {
-  padding: 2rem 0 4rem;
+  padding-block: 2rem 4rem;
   max-width: 740px;
 }
 
@@ -1935,7 +1935,7 @@ a {
 }
 
 .quiz-page {
-  padding: 2rem 0 4rem;
+  padding-block: 2rem 4rem;
   max-width: 720px;
 }
 
@@ -2134,7 +2134,7 @@ a.card-photo {
 }
 
 .detail-page {
-  padding: 1.5rem 0 4rem;
+  padding-block: 1.5rem 4rem;
   max-width: 700px;
 }
 
@@ -2561,7 +2561,7 @@ a.card-photo {
 }
 
 .thread-page {
-  padding: 2rem 0 8rem;
+  padding-block: 2rem 8rem;
   max-width: 720px;
 }
 
