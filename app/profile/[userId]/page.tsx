@@ -94,7 +94,8 @@ export default async function ProfileDetailPage({
         : [];
 
   const canSeeFullProfile = isSelf || matched;
-  const photos = canSeeFullProfile ? allPhotos : allPhotos.slice(0, 1);
+  const photos = canSeeFullProfile ? allPhotos : allPhotos.slice(0, 2);
+  const hasMorePhotosBehindMatch = !canSeeFullProfile && allPhotos.length > 2;
   const bioPreview =
     profile.bio && !canSeeFullProfile
       ? profile.bio.length > 160
@@ -226,7 +227,7 @@ export default async function ProfileDetailPage({
         </section>
       )}
 
-      {canSeeFullProfile && photos.length > 1 && (
+      {photos.length > 1 && (
         <section className="detail-section">
           <h2>Photos</h2>
           <div className="photo-gallery">
@@ -235,6 +236,19 @@ export default async function ProfileDetailPage({
               <img key={url} src={url} alt="" />
             ))}
           </div>
+          {hasMorePhotosBehindMatch && (
+            <p className="muted small reveal-hint">
+              🔒 More photos unlock when you both like each other.
+            </p>
+          )}
+        </section>
+      )}
+
+      {!canSeeFullProfile && photos.length <= 1 && hasMorePhotosBehindMatch && (
+        <section className="detail-section">
+          <p className="muted small reveal-hint">
+            🔒 More photos unlock when you both like each other.
+          </p>
         </section>
       )}
 

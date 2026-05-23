@@ -20,7 +20,8 @@ export function DiscoverPhotos({
   quizState,
 }: Props) {
   const [index, setIndex] = useState(0);
-  const safePhotos = photos.length > 0 ? photos : [""];
+  const limitedPhotos = photos.slice(0, 2);
+  const safePhotos = limitedPhotos.length > 0 ? limitedPhotos : [""];
   const hasMultiple = safePhotos.length > 1;
 
   function prev(e: React.MouseEvent) {
