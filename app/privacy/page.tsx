@@ -15,7 +15,7 @@ export default function PrivacyPage() {
 
       <p>
         Amor y Fe (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;)
-        operates the website at christian-aruba-dating.vercel.app. This
+        operates the website at amoryfe.app. This
         Privacy Policy explains what information we collect, how we use it,
         and the choices you have.
       </p>

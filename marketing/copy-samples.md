@@ -35,7 +35,7 @@ Amor y Fe. It's a dating app, but built for marriage — not swiping or casual.
 Would mean a lot to get your honest opinion before I share more widely. It's
 free, takes about 10 minutes, and uses your Facebook to verify you're real.
 
-Link: christian-aruba-dating.vercel.app
+Link: amoryfe.app
 
 If it's not your thing or you'd rather not, totally fine — just tell me to
 stop bugging you 🙂
@@ -98,7 +98,7 @@ WhatsApp message:
 > "If you're a single believer looking for marriage on this island, a member
 > of our community has built a Christian dating site called Amor y Fe. It's
 > faith-first, takes a compatibility quiz seriously, and is free to use.
-> Worth a look: christian-aruba-dating.vercel.app"
+> Worth a look: amoryfe.app"
 
 Whatever you decide, I'm grateful you'd even consider it.
 
@@ -116,11 +116,11 @@ Short version:
 > someone serious about marriage? A member of our community has built
 > **Amor y Fe**, a local Christian dating site with a compatibility quiz
 > that goes deep on what actually matters. Free. Sign in with Facebook.
-> christian-aruba-dating.vercel.app
+> amoryfe.app
 
 One-liner version:
 > *Amor y Fe — Christian dating, designed for Aruba. Free. Marriage-first.*
-> *christian-aruba-dating.vercel.app*
+> *amoryfe.app*
 
 ---
 
@@ -163,7 +163,7 @@ the first screen."
 — [Member name or Anonymous], [Town], [Age]
 
 Stories like this are why we built this.
-🌳 christian-aruba-dating.vercel.app
+🌳 amoryfe.app
 ```
 
 ---
@@ -192,7 +192,7 @@ There's a story here about a small island, a tight-knit church community,
 and how technology can serve faith without compromising it. I'd love 20
 minutes to walk you through it — or to answer any questions over email.
 
-Live at: christian-aruba-dating.vercel.app
+Live at: amoryfe.app
 Contact: johntheysen@gmail.com / [phone if comfortable]
 
 Bendi'on,
@@ -255,7 +255,7 @@ yet. No pressure — but the members on Discover see your profile too. Going
 in with a full profile and quiz is what makes the matches actually mean
 something.
 
-Takes 10 minutes. Link: christian-aruba-dating.vercel.app/profile/edit
+Takes 10 minutes. Link: amoryfe.app/profile/edit
 
 If something's blocking you, just reply and tell me what.
 

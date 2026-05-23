@@ -10,10 +10,10 @@ Every URL you need to run, maintain, and grow the site. Bookmark these in your b
 
 | What | URL |
 |---|---|
-| **Production website** | https://christian-aruba-dating.vercel.app |
-| Privacy Policy | https://christian-aruba-dating.vercel.app/privacy |
-| Terms of Service | https://christian-aruba-dating.vercel.app/terms |
-| Quiz (direct link) | https://christian-aruba-dating.vercel.app/quiz |
+| **Production website** | https://amoryfe.app |
+| Privacy Policy | https://amoryfe.app/privacy |
+| Terms of Service | https://amoryfe.app/terms |
+| Quiz (direct link) | https://amoryfe.app/quiz |
 
 ---
 
@@ -179,7 +179,7 @@ These don't exist yet on the site but are worth bookmarking for later.
 
 If you only bookmark **5 things right now**, make it these:
 
-1. **Live site** — https://christian-aruba-dating.vercel.app
+1. **Live site** — https://amoryfe.app
 2. **GitHub repo** — https://github.com/johntheysen-code/christian-aruba-dating
 3. **Vercel dashboard** — https://vercel.com/dashboard
 4. **Supabase dashboard** — https://supabase.com/dashboard

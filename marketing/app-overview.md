@@ -2,7 +2,7 @@
 
 A complete walk-through of what the app does, every screen, every flow, and the UX principles behind each decision. Share this with designers, marketers, product folks, or pastors who want to evaluate the product.
 
-> **Live site:** https://christian-aruba-dating.vercel.app
+> **Live site:** https://amoryfe.app
 > **Repo:** https://github.com/johntheysen-code/christian-aruba-dating
 
 ---
@@ -31,7 +31,7 @@ Built as a solo founder's project, currently in private beta. Free to use.
 | Storage | Supabase Storage (profile photos) |
 | Hosting | Vercel |
 | Styling | Vanilla CSS (no Tailwind / component library) |
-| Domain | `christian-aruba-dating.vercel.app` (custom domain pending) |
+| Domain | `amoryfe.app` |
 
 ---
 
@@ -239,7 +239,7 @@ The launch playbook (`marketing/launch-playbook.md`) prioritizes which of these 
 ## 8. How to test as a reviewer
 
 ### As a public visitor
-1. Visit https://christian-aruba-dating.vercel.app on any device
+1. Visit https://amoryfe.app on any device
 2. Read homepage, explore FAQ, try the "Take the Quiz" button
 3. Facebook will prompt to sign in — you must be added as a tester first (contact the founder)
 

@@ -71,7 +71,7 @@ The success of this project depends on the trust of the pastors who shepherd our
 
 ### How to see it
 
-> Site: **christian-aruba-dating.vercel.app** *(we'll have a proper domain soon)*
+> Site: **amoryfe.app**
 >
 > Or scan this QR code → *[insert QR]*
 >
