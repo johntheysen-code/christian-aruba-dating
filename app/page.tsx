@@ -1,7 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getProfile, getQuizAnswers } from "@/lib/supabase";
-import { AuthButton } from "./components/AuthButton";
 import { ProfileCTA } from "./components/ProfileCTA";
 import { HeroArt } from "./components/HeroArt";
 import { TakeQuizButton } from "./components/TakeQuizButton";
@@ -82,7 +81,25 @@ export default async function HomePage() {
                     goals — from Scripture and prayer to carnival, marriage,
                     and children.
                   </p>
-                  <span className="step-cta">Start now →</span>
+                  <span className="step-cta">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      aria-hidden="true"
+                      className="btn-icon"
+                    >
+                      <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.413c0-3.017 1.792-4.683 4.533-4.683 1.312 0 2.686.235 2.686.235v2.971h-1.513c-1.49 0-1.955.93-1.955 1.886v2.262h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z" />
+                    </svg>
+                    Take the Quiz
+                    <span className="btn-arrow" aria-hidden="true">
+                      →
+                    </span>
+                  </span>
+                  <span className="step-cta-hint">
+                    Requires a free Facebook login — takes 30 seconds.
+                  </span>
                 </QuizStepLink>
               </li>
               <li className="step step-2">
@@ -230,7 +247,12 @@ export default async function HomePage() {
                 65. It starts with one quiz. It ends with a marriage that
                 honors God.
               </p>
-              <AuthButton variant="facebook" />
+              <div className="hero-cta-stack cta-bottom">
+                <TakeQuizButton large />
+                <p className="hero-cta-hint muted small">
+                  Requires a free Facebook login — takes 30 seconds.
+                </p>
+              </div>
             </>
           )}
         </section>

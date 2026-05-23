@@ -613,19 +613,34 @@ a {
 }
 
 .step-cta {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   margin-top: 0.85rem;
-  padding: 0.45rem 1rem;
+  padding: 0.6rem 1.2rem;
   background: var(--coral);
   color: white;
   border-radius: 999px;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   transition: background 0.15s ease;
 }
 
 .step-interactive:hover .step-cta {
   background: var(--coral-dark);
+}
+
+.step-cta-hint {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.cta-bottom {
+  align-items: center;
+  max-width: 360px;
+  margin: 0 auto;
 }
 
 .features {
