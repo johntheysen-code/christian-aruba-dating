@@ -3,7 +3,6 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import {
-  getLikedIds,
   getProfile,
   getQuizAnswers,
   getQuizAnswersFor,
@@ -11,7 +10,6 @@ import {
   type BrowseFilters,
 } from "@/lib/supabase";
 import { computeCompatibility, toAnswerMap } from "@/lib/quiz";
-import { LikeButton } from "@/app/components/LikeButton";
 import { PassButton } from "@/app/components/PassButton";
 import { DiscoverPhotos } from "@/app/components/DiscoverPhotos";
 import { Filters } from "./Filters";
@@ -48,9 +46,8 @@ export default async function BrowsePage({
     location: typeof searchParams.location === "string" ? searchParams.location : undefined,
   };
 
-  const [profiles, likedIds, myAnswers] = await Promise.all([
+  const [profiles, myAnswers] = await Promise.all([
     listMatchableProfiles(session.user.id, me, filters),
-    getLikedIds(session.user.id),
     getQuizAnswers(session.user.id),
   ]);
 
@@ -135,12 +132,6 @@ export default async function BrowsePage({
                   passedId={p.user_id}
                   displayName={p.display_name}
                 />
-                <LikeButton
-                  likedId={p.user_id}
-                  initialLiked={likedIds.has(p.user_id)}
-                  displayName={p.display_name}
-                  compact
-                />
               </div>
 
               <Link href={`/profile/${p.user_id}`} className="discover-body">
@@ -153,7 +144,7 @@ export default async function BrowsePage({
                   <p className="card-church muted small">{p.church_name}</p>
                 )}
                 {p.bio && <p className="card-bio">{truncate(p.bio, 140)}</p>}
-                <span className="view-profile-link">View profile →</span>
+                <span className="view-profile-link">Read profile to like →</span>
               </Link>
             </li>
             );
