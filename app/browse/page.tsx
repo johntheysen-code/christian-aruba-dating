@@ -83,6 +83,14 @@ export default async function BrowsePage({
     }
   }
 
+  profiles.sort((a, b) => {
+    const sa = compatibility.get(a.user_id);
+    const sb = compatibility.get(b.user_id);
+    if (sa === null || sa === undefined) return 1;
+    if (sb === null || sb === undefined) return -1;
+    return sb - sa;
+  });
+
   return (
     <main className="container browse-page">
       <header className="browse-header">
