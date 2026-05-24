@@ -105,34 +105,61 @@ export function DiscoverPhotos({
         </h3>
         {location && <p className="discover-loc">📍 {location}</p>}
       </div>
-      {quizState === "scored" && compatibilityScore !== null ? (
-        <span
-          className={`compat-badge ${compatBadgeClass(compatibilityScore)}`}
-        >
-          {compatibilityScore}% match
-        </span>
-      ) : quizState === "their_quiz_pending" ? (
-        <span
-          className="compat-badge pending"
-          title={`${displayName} hasn't completed the compatibility quiz yet. Score will appear once they do.`}
-        >
-          Quiz pending
-        </span>
-      ) : (
-        <span
-          className="compat-badge take-quiz"
-          title="Take the quiz to see your compatibility with members."
-        >
-          Take the quiz
-        </span>
-      )}
+      <CompatibilityBadge
+        score={compatibilityScore}
+        quizState={quizState}
+        displayName={displayName}
+      />
     </div>
   );
 }
 
-function compatBadgeClass(score: number): string {
-  if (score >= 85) return "great";
-  if (score >= 70) return "good";
-  if (score >= 50) return "ok";
-  return "low";
+function CompatibilityBadge({
+  score,
+  quizState,
+  displayName,
+}: {
+  score: number | null;
+  quizState: "scored" | "their_quiz_pending" | "your_quiz_pending";
+  displayName: string;
+}) {
+  if (quizState === "your_quiz_pending") {
+    return (
+      <span
+        className="compat-badge compat-badge--prompt"
+        title="Take the quiz to see your compatibility with members."
+      >
+        Take the quiz
+      </span>
+    );
+  }
+  if (quizState === "their_quiz_pending" || score === null) {
+    return (
+      <span
+        className="compat-badge compat-badge--pending"
+        title={`${displayName} hasn't completed the compatibility quiz yet.`}
+      >
+        Quiz pending
+      </span>
+    );
+  }
+  if (score >= 80) {
+    return (
+      <span className="compat-badge compat-badge--high">
+        ♥ {score}% match
+      </span>
+    );
+  }
+  if (score >= 60) {
+    return (
+      <span className="compat-badge compat-badge--mid">
+        {score}% match
+      </span>
+    );
+  }
+  return (
+    <span className="compat-badge compat-badge--low">
+      {score}% match
+    </span>
+  );
 }

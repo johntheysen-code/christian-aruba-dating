@@ -116,8 +116,15 @@ export default async function BrowsePage({
                   : [];
             const score = compatibility.get(p.user_id) ?? null;
             const quizState = quizStates.get(p.user_id) ?? "their_quiz_pending";
+            const cardClass = [
+              "discover-card",
+              (score ?? 0) >= 80 ? "discover-card--highlight" : "",
+              score !== null && score < 60 ? "discover-card--faded" : "",
+            ]
+              .filter(Boolean)
+              .join(" ");
             return (
-            <li key={p.user_id} className="discover-card">
+            <li key={p.user_id} className={cardClass}>
               <DiscoverPhotos
                 userId={p.user_id}
                 photos={photos}
@@ -140,6 +147,16 @@ export default async function BrowsePage({
                   {p.denomination && (
                     <span className="tag">⛪ {p.denomination}</span>
                   )}
+                  {childrenTag(p.children_plans) && (
+                    <span className="tag tag-muted">
+                      {childrenTag(p.children_plans)}
+                    </span>
+                  )}
+                  {marriageTag(p.marriage_intention) && (
+                    <span className="tag tag-muted">
+                      {marriageTag(p.marriage_intention)}
+                    </span>
+                  )}
                 </div>
                 {p.church_name && (
                   <p className="card-church muted small">{p.church_name}</p>
@@ -159,4 +176,32 @@ export default async function BrowsePage({
 function truncate(text: string, max: number): string {
   if (text.length <= max) return text;
   return text.slice(0, max).trimEnd() + "…";
+}
+
+function childrenTag(value: string | null): string | null {
+  if (!value) return null;
+  switch (value) {
+    case "want":
+      return "· Wants kids";
+    case "have_want_more":
+      return "· Has kids, wants more";
+    case "have_done":
+      return "· Has kids";
+    case "no_kids":
+      return "· No kids";
+    default:
+      return null;
+  }
+}
+
+function marriageTag(value: string | null): string | null {
+  if (!value) return null;
+  switch (value) {
+    case "ready":
+      return "· Ready for marriage";
+    case "open":
+      return "· Open to marriage";
+    default:
+      return null;
+  }
 }

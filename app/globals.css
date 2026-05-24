@@ -1192,6 +1192,51 @@ a {
   box-shadow: 0 14px 40px -10px rgba(7, 77, 101, 0.32);
 }
 
+.discover-card--highlight {
+  box-shadow: 0 0 0 2px #1a7a4a, 0 6px 30px -12px rgba(7, 77, 101, 0.22);
+}
+
+.discover-card--highlight:hover {
+  box-shadow: 0 0 0 2px #1a7a4a, 0 14px 40px -10px rgba(7, 77, 101, 0.32);
+}
+
+.discover-card--faded {
+  opacity: 0.72;
+}
+
+.discover-card--faded:hover {
+  opacity: 1;
+}
+
+.compat-badge--high {
+  background: #1a7a4a;
+  color: white;
+  font-weight: 700;
+}
+
+.compat-badge--mid {
+  background: rgba(7, 77, 101, 0.78);
+  color: white;
+  font-weight: 600;
+}
+
+.compat-badge--low {
+  background: rgba(0, 0, 0, 0.32);
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.compat-badge--pending {
+  background: rgba(0, 0, 0, 0.32);
+  color: rgba(255, 255, 255, 0.82);
+  font-weight: 600;
+}
+
+.compat-badge--prompt {
+  background: var(--coral);
+  color: white;
+  font-weight: 700;
+}
+
 .discover-photo {
   position: relative;
   display: block;
@@ -2577,6 +2622,14 @@ a.card-photo {
   color: var(--ocean-dark);
   border-radius: 999px;
   white-space: nowrap;
+}
+
+.tag-muted {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid #d8dde2;
+  font-size: 0.72rem;
+  opacity: 0.85;
 }
 
 .card-church {
